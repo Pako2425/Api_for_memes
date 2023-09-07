@@ -16,6 +16,8 @@ public class ApiController {
     private final UserService userService;
     private final String FOLDER_PATH = "C:/Users/Lenovo/Desktop/files/";
 
+
+    
     @GetMapping(value = "/")
     public String showHomePage() {
         return "homePage";
@@ -24,7 +26,6 @@ public class ApiController {
     @GetMapping(value = "/register")
     public String showRegisterPage() { return "registerForm"; }
 
-    /*
     @GetMapping(value = "/sign_in")
     public String viewSignInPage()
     {
@@ -36,6 +37,7 @@ public class ApiController {
         return "termsAndConditions";
     }
 
+    /*
     @GetMapping(value = "/fileSystem/{fileId}", produces = MediaType.IMAGE_JPEG_VALUE)
     public byte[] downloadImage(@PathVariable Long fileId) throws IOException {
         Optional<FileData> fileData = filesRepository.findById(fileId);
@@ -44,66 +46,42 @@ public class ApiController {
 
         return meme;
     }
-
-    public boolean isRegisterDataCorrect(UserRegisterFormData userRegisterFormData) {
-        boolean isEmailAlreadyInUse = false;
-        boolean isNameAlreadyInUse = false;
-        boolean isPasswordCorrect = false;
-
-        for(User user : usersRepository.findAll()) {
-            if (user.getEmail().equals(userRegisterFormData.getEmail())) {
-                isEmailAlreadyInUse = true;
-            }
-            if (user.getUsername().equals(userRegisterFormData.getName())) {
-                isNameAlreadyInUse = true;
-            }
-            if (userRegisterFormData.getPassword().equals(userRegisterFormData.getRepeatPassword())) {
-                isPasswordCorrect = true;
-            }
-        }
-
-        if(!isEmailAlreadyInUse && !isNameAlreadyInUse && isPasswordCorrect) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
     */
+
     @PostMapping(value = "/process_register")
     public String handleRegisterData(@ModelAttribute(value = "userRegisterFormData")
                                      RegistrationRequest registrationRequest) {
-        userService.save(registrationRequest);
-        return "registerSuceeded";
-    }
-    /*
 
-    @PostMapping(value = "/process_register")
-    public String register(@RequestBody RegisterRequest registerRequest) {
-        registerService.register(registerRequest);
-        return "register succesful";
-    }
+        String form = "registerSuceeded";
 
-    @PostMapping(value = "/process_register")
-    public String handleRegisterData(@ModelAttribute(value="userRegisterFormData")
-                                         UserRegisterFormData userRegisterFormData) {
-
-        if(isRegisterDataCorrect(userRegisterFormData)) {
-            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            String encodedPassword = passwordEncoder.encode(userRegisterFormData.getPassword());
-
-            User user = new User(userRegisterFormData.getName(), userRegisterFormData.getEmail(), encodedPassword, UserRole.USER);
-            usersRepository.save(user);
-
-            return "registerSuceeded";
+        try {
+            userService.save(registrationRequest);
         }
-        else {
-            return "registerForm";
-        }
-    }
+        catch(IllegalStateException e) {
+            String message = e.getMessage();
+            System.out.println(message);
 
-    */
+            if(message.equals("Email already exist")) {
+                form = "emailAlreadyInUse";
+                System.out.println(message);
+            }
+
+            else if(message.equals("Name already exist")) {
+                form = "nameAlreadyInUse";
+            }
+
+            else if(message.equals("Password not correct")) {
+                form = "wrongPassword";
+            }
+
+            else {
+                form = "homePage";
+            }
+
+        }
+
+        return form;
+    }
 
     /*
     @PostMapping(value = "/fileSystem")

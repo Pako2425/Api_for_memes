@@ -13,15 +13,14 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class UserService implements UserDetailsService {
 
     private final String USER_NOT_FOUND_MSG = "user with email %s not found.";
     private final UsersRepository usersRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public User save(RegistrationRequest registrationRequest) {
-
+    public User save(RegistrationRequest registrationRequest) throws IllegalStateException {
         User user = new User(registrationRequest.getName(),
                 registrationRequest.getEmail(),
                 registrationRequest.getPassword(),
@@ -34,16 +33,15 @@ public class UserService implements UserDetailsService {
 
         boolean nameExist = usersRepository.findByName(user.getName()).isPresent();
         if(nameExist) {
-            throw new IllegalStateException("Name exist");
+            throw new IllegalStateException("Name already exist");
         }
 
-        //boolean passwordCorrect = user.getPassword().equals(registrationRequest.getRepeatPassword());
-        //if(passwordCorrect) {
-        //    user.setPassword(bCryptPasswordEncoder.encode(registrationRequest.getPassword()));
-        //}
-        //else {
-        //    throw new IllegalStateException("Password not correct");
-        //}
+        boolean passwordCorrect = user.getPassword().equals(registrationRequest.getRepeatPassword());
+        if(!passwordCorrect) {
+            throw new IllegalStateException("Password not correct");
+        }
+
+        user.setPassword(bCryptPasswordEncoder.encode(registrationRequest.getPassword()));
 
         return usersRepository.save(user);
     }
