@@ -1,49 +1,30 @@
 package com.patryk.app.rest.Controller;
 
-import com.patryk.app.rest.Model.User;
-import com.patryk.app.rest.Model.UserRegisterFormData;
-import com.patryk.app.rest.Model.UserRole;
-import com.patryk.app.rest.Repository.FilesRepository;
 import com.patryk.app.rest.Repository.UsersRepository;
-import com.patryk.app.rest.Service.RegisterRequest;
-import com.patryk.app.rest.Service.RegisterService;
+import com.patryk.app.rest.Service.RegistrationRequest;
+import com.patryk.app.rest.Service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import com.patryk.app.rest.Model.FileData;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.List;
-import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
 public class ApiController {
-    
-    private final FilesRepository filesRepository;
-    private final UsersRepository usersRepository;
-    private final RegisterService registerService;
+
+    private final UserService userService;
     private final String FOLDER_PATH = "C:/Users/Lenovo/Desktop/files/";
 
     @GetMapping(value = "/")
-    public String viewHomePage() {
+    public String showHomePage() {
         return "homePage";
     }
 
     @GetMapping(value = "/register")
-    public String viewRegisterPage(Model model) {
-        model.addAttribute("userRegisterFormData", new UserRegisterFormData());
-        return "registerForm";
-    }
+    public String showRegisterPage() { return "registerForm"; }
 
+    /*
     @GetMapping(value = "/sign_in")
     public String viewSignInPage()
     {
@@ -62,11 +43,6 @@ public class ApiController {
         byte[] meme = Files.readAllBytes(new File(filePath).toPath());
 
         return meme;
-    }
-
-    public String encodePassword(String password) {
-
-        return "";
     }
 
     public boolean isRegisterDataCorrect(UserRegisterFormData userRegisterFormData) {
@@ -94,6 +70,15 @@ public class ApiController {
         }
     }
 
+    */
+    @PostMapping(value = "/process_register")
+    public String handleRegisterData(@ModelAttribute(value = "userRegisterFormData")
+                                     RegistrationRequest registrationRequest) {
+        userService.save(registrationRequest);
+        return "registerSuceeded";
+    }
+    /*
+
     @PostMapping(value = "/process_register")
     public String register(@RequestBody RegisterRequest registerRequest) {
         registerService.register(registerRequest);
@@ -118,9 +103,10 @@ public class ApiController {
         }
     }
 
+    */
 
-
-    /*@PostMapping(value = "/fileSystem")
+    /*
+    @PostMapping(value = "/fileSystem")
     public Long uploadImage(@RequestParam MultipartFile multipartFile) throws IOException {
         String filePath = FOLDER_PATH + multipartFile.getOriginalFilename();
         FileData fileData = new FileData();
