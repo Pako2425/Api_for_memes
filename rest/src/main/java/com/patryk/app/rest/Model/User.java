@@ -1,10 +1,7 @@
 package com.patryk.app.rest.Model;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +13,7 @@ import java.util.Optional;
 @Getter
 @Setter
 @EqualsAndHashCode
+@ToString
 @NoArgsConstructor
 @Entity
 @Table(name="users")
@@ -25,23 +23,17 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
     private String name;
 
-    @Column
     private String email;
 
-    @Column
     private String password;
 
-    @Column
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
-    @Column
     private Boolean locked = false;
 
-    @Column
     private Boolean enabled = true;
 
     public Long getId() {

@@ -1,12 +1,11 @@
 package com.patryk.app.rest.Controller;
 
 import com.patryk.app.rest.Repository.UsersRepository;
+import com.patryk.app.rest.Service.RegistrationDataStatus;
 import com.patryk.app.rest.Service.RegistrationRequest;
 import com.patryk.app.rest.Service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
-
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -16,25 +15,38 @@ public class ApiController {
     private final UserService userService;
     private final String FOLDER_PATH = "C:/Users/Lenovo/Desktop/files/";
 
-
+    private final String homePage_form = "homePage";
+    private final String registerPage_form = "registerForm";
+    private final String signInPage_form = "signInForm";
+    private final String termsAndConditions_form = "termsAndConditions";
+    private final String registerSucceded_form = "registerSuceeded";
+    private final String emailAlreadyInUse_form = "emailAlreadyInUse";
+    private final String nameAlreadyInUse_form = "nameAlreadyInUse";
+    private final String wrongPassword_form = "wrongPassword";
+    private final String somethingWentWrong_form = "somethingWentWrong";
 
     @GetMapping(value = "/")
     public String showHomePage() {
-        return "homePage";
+
+        return homePage_form;
     }
 
     @GetMapping(value = "/register")
-    public String showRegisterPage() { return "registerForm"; }
+    public String showRegisterPage() {
+
+        return registerPage_form;
+    }
 
     @GetMapping(value = "/sign_in")
-    public String viewSignInPage()
-    {
-        return "signInForm";
+    public String viewSignInPage() {
+
+        return signInPage_form;
     }
 
     @GetMapping(value = "/terms_and_conditions")
     public String viewTermsAndConditionsPage() {
-        return "termsAndConditions";
+
+        return termsAndConditions_form;
     }
 
     /*
@@ -52,32 +64,24 @@ public class ApiController {
     public String handleRegisterData(@ModelAttribute(value = "userRegisterFormData")
                                      RegistrationRequest registrationRequest) {
 
-        String form = "registerSuceeded";
+        RegistrationDataStatus registrationDataStatus = userService.registerDataCheck(registrationRequest);
+        String form;
 
-        try {
+        if(registrationDataStatus == RegistrationDataStatus.SUCCESS) {
             userService.save(registrationRequest);
+            form = registerSucceded_form;
         }
-        catch(IllegalStateException e) {
-            String message = e.getMessage();
-            System.out.println(message);
-
-            if(message.equals("Email already exist")) {
-                form = "emailAlreadyInUse";
-                System.out.println(message);
-            }
-
-            else if(message.equals("Name already exist")) {
-                form = "nameAlreadyInUse";
-            }
-
-            else if(message.equals("Password not correct")) {
-                form = "wrongPassword";
-            }
-
-            else {
-                form = "homePage";
-            }
-
+        else if(registrationDataStatus == RegistrationDataStatus.EMAIL_ALREADY_EXIST) {
+            form = emailAlreadyInUse_form;
+        }
+        else if(registrationDataStatus == RegistrationDataStatus.NAME_ALREADY_EXIST) {
+            form = nameAlreadyInUse_form;
+        }
+        else if(registrationDataStatus == RegistrationDataStatus.PASSWORD_NOT_CORRECT) {
+            form = wrongPassword_form;
+        }
+        else {
+            form = somethingWentWrong_form;
         }
 
         return form;
