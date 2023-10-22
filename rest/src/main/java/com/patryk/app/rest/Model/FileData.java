@@ -3,11 +3,7 @@ package com.patryk.app.rest.Model;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Getter
-@Setter
-@EqualsAndHashCode
-@ToString
-@NoArgsConstructor
+@Data
 @Entity
 public class FileData {
     @Id

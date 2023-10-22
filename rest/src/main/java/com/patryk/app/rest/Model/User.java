@@ -10,10 +10,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
 
-@Getter
-@Setter
-@EqualsAndHashCode
-@ToString
+@Data
 @NoArgsConstructor
 @Entity
 @Table(name="users")

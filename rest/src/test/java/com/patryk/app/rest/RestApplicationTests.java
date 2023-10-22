@@ -32,22 +32,4 @@ class RestApplicationTests {
 		User foundUser = entityManager.find(User.class, savedUser.getId());
 		Assertions.assertEquals(savedUser.getEmail(), foundUser.getEmail());
 	}
-	/*
-	@Test
-	void registerUserTest() {
-		User user = new User();
-		user.setEmail("patkoc11@interia.pl");
-		user.setName("Pako2425");
-		user.setPassword("gitara321");
-
-		UserRegisterFormData userRegisterFormData = new UserRegisterFormData();
-		userRegisterFormData.setEmail("makaron@gmail.com");
-		userRegisterFormData.setName("Adam6758");
-		userRegisterFormData.setPassword("aaa");
-		userRegisterFormData.setRepeatPassword("aaa");
-
-		mockMvc.perform()
-
-	 */
-
 }

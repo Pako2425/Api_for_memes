@@ -7,9 +7,9 @@ import lombok.Setter;
 @Setter
 @Getter
 @AllArgsConstructor
-public class RegistrationRequest {
+public class RegistrationDAO {
     private final String email;
     private final String name;
     private final String password;
-    private final String repeatPassword;
+    private final String repeatedPassword;
 }
