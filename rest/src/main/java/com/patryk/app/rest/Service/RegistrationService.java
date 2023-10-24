@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 @AllArgsConstructor
@@ -39,15 +40,15 @@ public class RegistrationService {
             }
         }
         else {
-            for (User user : users) {
-                if (user.getEmail().equals(registrationDAO.getEmail())) {
-                    return RegistrationDataStatus.EMAIL_ALREADY_EXIST;
-                }
-                else if (user.getUsername().equals(registrationDAO.getName())) {
-                    return RegistrationDataStatus.NAME_ALREADY_EXIST;
-                }
+            if(users.stream().anyMatch(user -> user.getEmail().equals(registrationDAO.getEmail()))) {
+                return RegistrationDataStatus.EMAIL_ALREADY_EXIST;
             }
-            return RegistrationDataStatus.SOMETHING_WENT_WRONG;
+            else if(users.stream().anyMatch(user -> user.getUsername().equals(registrationDAO.getName()))) {
+                return RegistrationDataStatus.NAME_ALREADY_EXIST;
+            }
+            else {
+                return RegistrationDataStatus.SOMETHING_WENT_WRONG;
+            }
         }
     }
 
