@@ -7,10 +7,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.List;
-import java.util.stream.Stream;
 
 @Service
 @AllArgsConstructor
@@ -24,7 +21,7 @@ public class RegistrationService {
             RegistrationDataStatus.EMAIL_ALREADY_EXIST, "emailAlreadyInUse",
             RegistrationDataStatus.NAME_ALREADY_EXIST, "nameAlreadyInUse",
             RegistrationDataStatus.PASSWORD_NOT_CORRECT, "wrongPassword",
-            RegistrationDataStatus.SUCCESS, "registerSuceeded",
+            RegistrationDataStatus.SUCCESS, "registerSucceeded",
             RegistrationDataStatus.SOMETHING_WENT_WRONG, "somethingWentWrong"
     );
 
@@ -40,10 +37,17 @@ public class RegistrationService {
             }
         }
         else {
-            if(users.stream().anyMatch(user -> user.getEmail().equals(registrationDAO.getEmail()))) {
+            boolean emailExist = users
+                    .stream()
+                    .anyMatch(user -> user.getEmail().equals(registrationDAO.getEmail()));
+            boolean nameExist = users
+                    .stream()
+                    .anyMatch(user -> user.getUsername().equals(registrationDAO.getName()));
+
+            if(emailExist) {
                 return RegistrationDataStatus.EMAIL_ALREADY_EXIST;
             }
-            else if(users.stream().anyMatch(user -> user.getUsername().equals(registrationDAO.getName()))) {
+            else if(nameExist) {
                 return RegistrationDataStatus.NAME_ALREADY_EXIST;
             }
             else {
