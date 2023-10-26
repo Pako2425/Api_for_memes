@@ -1,10 +1,10 @@
 package com.patryk.app.rest.Repository;
 
-import com.patryk.app.rest.Model.FileData;
 import org.springframework.data.jpa.repository.JpaRepository;
+import com.patryk.app.rest.Model.Meme;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface FilesRepository extends JpaRepository<FileData, Long> {
+public interface MemesRepository extends JpaRepository<Meme, Long> {
 
 }

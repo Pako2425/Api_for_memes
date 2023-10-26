@@ -8,9 +8,9 @@ import org.springframework.web.multipart.MultipartFile;
 @Setter
 @Getter
 @AllArgsConstructor
-public class RegistrationDAO {
-    private final String email;
-    private final String name;
-    private final String password;
-    private final String repeatedPassword;
+public class UploadedMemeDAO {
+    private String title;
+    private String username;
+    private String filePath;
+    private final MultipartFile meme;
 }

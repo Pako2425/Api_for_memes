@@ -21,7 +21,7 @@ public class RegistrationService {
             RegistrationDataStatus.EMAIL_ALREADY_EXIST, "emailAlreadyInUse",
             RegistrationDataStatus.NAME_ALREADY_EXIST, "nameAlreadyInUse",
             RegistrationDataStatus.PASSWORD_NOT_CORRECT, "wrongPassword",
-            RegistrationDataStatus.SUCCESS, "registerSucceeded",
+            RegistrationDataStatus.SUCCESS, "registrationSucceeded",
             RegistrationDataStatus.SOMETHING_WENT_WRONG, "somethingWentWrong"
     );
 
