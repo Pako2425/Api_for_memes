@@ -5,12 +5,17 @@ import com.patryk.app.rest.Repository.MemesRepository;
 import com.patryk.app.rest.Service.RegistrationDAO;
 import com.patryk.app.rest.Service.RegistrationService;
 import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
@@ -56,6 +61,18 @@ public class ApiController {
     @GetMapping(value = "/add_meme")
     public String post() {
         return "postMeme";
+    }
+
+    /*@GetMapping(value = "/watch", produces = MediaType.IMAGE_JPEG_VALUE)
+    @ResponseBody
+    public byte[] downloadImage() throws IOException {
+        String filePath = "D:/memes/a.jpg";
+        return Files.readAllBytes(new File(filePath).toPath());
+    }*/
+
+    @GetMapping(value = "/watch")
+    public String show() {
+        return "image";
     }
 
     @PostMapping(value = "/process_register")
