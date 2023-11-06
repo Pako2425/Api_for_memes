@@ -13,5 +13,6 @@ public class Meme {
     private Long id;
     private String title;
     private String username;
+    private String name;
     private String filePath;
 }

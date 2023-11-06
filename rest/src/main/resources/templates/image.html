@@ -2,7 +2,34 @@
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 <head></head>
 <body>
-    <img src="a.jpg" alt="Zdjęcie">
-<!-- <a th:href="@{files/a.jpg}">-->
+    <h1 style="background-color: rgb(196, 196, 196);">
+        <a href="/">Memy</a>
+        <a href="/">Losuj</a>
+        <a href="/">Dodaj</a>
+        <a href="/sign_in">Zaloguj</a>
+    </h1>
+
+    <div th:each="meme : ${memes}">
+        <h1><span th:text="${meme.title}"></span></h1>
+        <img th:src="'../' + ${meme.title} + '.jpg'">
+    </div>
+
+    <ul class="pagination">
+        <li th:if="${currentPage > 0}">
+            <a th:href="@{http://localhost:8080(page=0)}">Pierwsza</a>
+        </li>
+        <li th:if="${currentPage > 0}">
+            <a th:href="@{http://localhost:8080(page=${currentPage - 1})}">Poprzednia</a>
+        </li>
+        <li th:each="pageNumber : ${#numbers.sequence(firstPage, lastPage)}">
+            <a th:href="@{http://localhost:8080(page=${pageNumber})}" th:text="${pageNumber + 1}"></a>
+        </li>
+        <li th:if="${currentPage < totalPages - 1}">
+            <a th:href="@{http://localhost:8080(page=${currentPage + 1})}">Następna</a>
+        </li>
+        <li th:if="${currentPage < totalPages - 1}">
+            <a th:href="@{http://localhost:8080(page=${totalPages - 1})}">Ostatnia</a>
+        </li>
+    </ul>
 </body>
 </html>
