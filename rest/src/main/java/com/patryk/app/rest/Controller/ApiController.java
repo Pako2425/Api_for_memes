@@ -15,17 +15,18 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Controller
 @AllArgsConstructor
 public class ApiController {
 
     private final RegistrationService REGISTRATION_SERVICE;
-    private final PaginationService PAGINATION_SERVICE;
-
     private final MemesRepository MEMES_REPOSITORY;
 
     private final String MAIN_PAGE = "mainPage";
+    private final String RANDOM_PAGE = "randomPage";
     private final String REGISTER_PAGE_FORM = "registerForm";
     private final String SIGN_IN_PAGE_FORM = "signInForm";
     private final String TERMS_AND_CONDITIONS_FORM = "termsAndConditions";
@@ -59,7 +60,7 @@ public class ApiController {
     }
 
     @GetMapping(value = "/")
-    public String show(@RequestParam(defaultValue = "0", name="page") int page, Model model) {
+    public String showMainPage(@RequestParam(defaultValue = "0", name="page") int page, Model model) {
 
         int pageSize = 1;
         Page<Meme> memesPage = MEMES_REPOSITORY.findAll(PageRequest.of(page, pageSize, Sort.Direction.DESC, "id"));
@@ -78,6 +79,18 @@ public class ApiController {
         model.addAttribute("lastPage", lastPage);
 
         return MAIN_PAGE;
+    }
+
+    @GetMapping(value = "/random")
+    public String showRandomPage(Model model) {
+        String USER_NOT_FOUND_MSG = "user with name %s not found.";
+
+        long totalElements = MEMES_REPOSITORY.count();
+        long randomMemeId = ThreadLocalRandom.current().nextLong(totalElements);
+        Page<Meme> randomMemePage = MEMES_REPOSITORY.findAll(PageRequest.of(Long.valueOf(randomMemeId).intValue(), 1));
+        model.addAttribute("randomMeme", randomMemePage.getContent());
+
+        return "randomPage";
     }
 
     @PostMapping(value = "/process_register")
