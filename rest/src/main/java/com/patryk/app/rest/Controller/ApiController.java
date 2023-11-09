@@ -1,7 +1,9 @@
 package com.patryk.app.rest.Controller;
 
 import com.patryk.app.rest.Model.Meme;
+import com.patryk.app.rest.Model.User;
 import com.patryk.app.rest.Repository.MemesRepository;
+import com.patryk.app.rest.Repository.UsersRepository;
 import com.patryk.app.rest.Service.RegistrationDAO;
 import com.patryk.app.rest.Service.RegistrationService;
 import lombok.AllArgsConstructor;
@@ -15,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -24,6 +27,7 @@ public class ApiController {
 
     private final RegistrationService REGISTRATION_SERVICE;
     private final MemesRepository MEMES_REPOSITORY;
+    private final UsersRepository USERS_REPOSITORY;
 
     private final String MAIN_PAGE = "mainPage";
     private final String RANDOM_PAGE = "randomPage";
@@ -92,6 +96,44 @@ public class ApiController {
 
         return "randomPage";
     }
+
+    @GetMapping(value = "/admin/users")
+    public String showUsersList(Model model) {
+        List<User> users = USERS_REPOSITORY.findAll();
+        model.addAttribute("users", users);
+        return "admin_usersList";
+    }
+
+    @GetMapping(value = "/admin/users/edit/{user_id}")
+    public String userEdit(@PathVariable long user_id, Model model) {
+        Optional<User> user = USERS_REPOSITORY.findById(user_id);
+        if(user.isPresent()) {
+            model.addAttribute("user", user.get());
+            return "userEdit";
+        }
+        return "error";
+    }
+
+    @PostMapping(value = "/admin_users_data_update")
+    public String handleAdminActions(@RequestParam("id") long userId,
+                                     @RequestParam("unlock") boolean unlock,
+                                     Model model
+                                     ) {
+
+        User userToUpdate = USERS_REPOSITORY.getReferenceById(userId);
+        if(unlock) {
+            userToUpdate.setLocked(false);
+        }
+        else {
+            userToUpdate.setLocked(true);
+        }
+        User updatedUser = USERS_REPOSITORY.save(userToUpdate);
+        System.out.println(updatedUser.getLocked());
+        model.addAttribute("user", updatedUser);
+        System.out.println("Hi");
+        return "userEdit";
+    }
+
 
     @PostMapping(value = "/process_register")
     public String handleRegisterData(@ModelAttribute(value = "userRegisterFormData")

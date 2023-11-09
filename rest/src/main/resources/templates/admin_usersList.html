@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Home page</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body>
+
+<!--<div th:each="user : ${users}">
+  <p><span th:text="${user.id + ' ' + user.name + user.email}"></span></p>
+</div>-->
+<div style="text-align: center;">
+<table>
+  <thead>
+    <tr>
+      <td th:text="id"></td>
+      <td th:text="username"></td>
+      <td th:text="email"></td>
+      <td th:text="locked"></td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr th:each="user : ${users}">
+      <td th:text="${user.id}">Nazwa</td>
+      <td th:text="${user.name}">Wartość</td>
+      <td th:text="${user.email}">Wartość</td>
+      <td th:text="${user.locked}">Wartość</td>
+      <td>
+        <a th:href="@{'/admin/users/edit/' + ${user.id}}" class="btn btn-primary">Edytuj</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</body>
+
+</html>
