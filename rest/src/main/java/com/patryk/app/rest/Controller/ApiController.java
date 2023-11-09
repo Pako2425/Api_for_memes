@@ -2,8 +2,10 @@ package com.patryk.app.rest.Controller;
 
 import com.patryk.app.rest.Model.Meme;
 import com.patryk.app.rest.Repository.MemesRepository;
+import com.patryk.app.rest.Service.PaginationService;
 import com.patryk.app.rest.Service.RegistrationDAO;
 import com.patryk.app.rest.Service.RegistrationService;
+import com.patryk.app.rest.Service.UploadMemeService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,8 +24,7 @@ public class ApiController {
 
     private final RegistrationService REGISTRATION_SERVICE;
     private final PaginationService PAGINATION_SERVICE;
-
-    private final MemesRepository MEMES_REPOSITORY;
+    private final UploadMemeService UPLOAD_MEME_SERVICE;
 
     private final String MAIN_PAGE = "mainPage";
     private final String REGISTER_PAGE_FORM = "registerForm";
@@ -34,6 +35,8 @@ public class ApiController {
     private final String NAME_ALREADY_IN_USE_FORM = "nameAlreadyInUse";
     private final String WRONG_PASSWORD_FORM = "wrongPassword";
     private final String SOMETHING_WENT_WRONG = "somethingWentWrong";
+    private final String POST_MEME_FORM = "postMemeForm";
+
 
     @GetMapping(value = "/register")
     public String showRegisterPage() {
@@ -55,29 +58,13 @@ public class ApiController {
 
     @GetMapping(value = "/add_meme")
     public String post() {
-        return "postMeme";
+        return POST_MEME_FORM;
     }
 
     @GetMapping(value = "/")
     public String show(@RequestParam(defaultValue = "0", name="page") int page, Model model) {
 
-        int pageSize = 1;
-        Page<Meme> memesPage = MEMES_REPOSITORY.findAll(PageRequest.of(page, pageSize, Sort.Direction.DESC, "id"));
-
-        int totalPages = memesPage.getTotalPages();
-
-        int maxPageLinks = 5;
-        int firstPage = Math.max(0, page - (maxPageLinks / 2));
-        int lastPage = Math.min(totalPages - 1, firstPage + (maxPageLinks - 1));
-        firstPage = Math.max(0, lastPage - maxPageLinks + 1);
-
-        model.addAttribute("memes", memesPage.getContent());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", totalPages);
-        model.addAttribute("firstPage", firstPage);
-        model.addAttribute("lastPage", lastPage);
-
-        return MAIN_PAGE;
+        return PAGINATION_SERVICE.showMainPage(page, model);
     }
 
     @PostMapping(value = "/process_register")
@@ -90,16 +77,8 @@ public class ApiController {
     @PostMapping(value = "/post_meme")
     public String uploadImage(@RequestParam("title") String name,
                             @RequestParam("image") MultipartFile image) throws IOException {
-        Meme meme = new Meme();
-        meme.setTitle(name);
-        String filePath = "D:/memes/" + name + ".jpg";
-        meme.setFilePath(filePath);
 
-        MEMES_REPOSITORY.save(meme);
-
-        image.transferTo(new File(filePath));
-
-        return "homePage";
+        return UPLOAD_MEME_SERVICE.postMeme(name, image);
     }
 
 }
