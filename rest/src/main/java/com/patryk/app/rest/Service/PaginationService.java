@@ -13,9 +13,8 @@ import org.springframework.ui.Model;
 @AllArgsConstructor
 public class PaginationService {
     private final MemesRepository MEMES_REPOSITORY;
-    private final String MAIN_PAGE = "mainPage";
 
-    public String showMainPage(int page, Model model) {
+    public void showMainPage(int page, Model model) {
         int pageSize = 1;
         Page<Meme> memesPage = MEMES_REPOSITORY.findAll(PageRequest.of(page, pageSize, Sort.Direction.DESC, "id"));
 
@@ -30,8 +29,5 @@ public class PaginationService {
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("firstPage", firstPage);
         model.addAttribute("lastPage", lastPage);
-
-        return MAIN_PAGE;
     }
-
 }

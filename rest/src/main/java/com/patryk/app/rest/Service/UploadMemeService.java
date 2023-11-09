@@ -13,9 +13,8 @@ import java.io.IOException;
 @AllArgsConstructor
 public class UploadMemeService {
     private final MemesRepository MEMES_REPOSITORY;
-    private final String MAIN_PAGE = "mainPage";
 
-    public String postMeme(String name, MultipartFile image) throws IOException {
+    public void postMeme(String name, MultipartFile image) throws IOException {
         Meme meme = new Meme();
         meme.setTitle(name);
         String filePath = "D:/memes/" + name + ".jpg";
@@ -23,8 +22,6 @@ public class UploadMemeService {
 
         MEMES_REPOSITORY.save(meme);
         image.transferTo(new File(filePath));
-
-        return MAIN_PAGE;
     }
 
 }
