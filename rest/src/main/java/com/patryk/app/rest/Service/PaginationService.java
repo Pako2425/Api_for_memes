@@ -9,6 +9,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 @Service
 @AllArgsConstructor
 public class PaginationService {
@@ -29,5 +31,12 @@ public class PaginationService {
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("firstPage", firstPage);
         model.addAttribute("lastPage", lastPage);
+    }
+
+    public void showRandomPage(Model model) {
+        long totalElements = MEMES_REPOSITORY.count();
+        long randomMemeId = ThreadLocalRandom.current().nextLong(totalElements);
+        Page<Meme> randomMemePage = MEMES_REPOSITORY.findAll(PageRequest.of(Long.valueOf(randomMemeId).intValue(), 1));
+        model.addAttribute("randomMeme", randomMemePage.getContent());
     }
 }

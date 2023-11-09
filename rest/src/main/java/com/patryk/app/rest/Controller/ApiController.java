@@ -1,21 +1,13 @@
 package com.patryk.app.rest.Controller;
 
-import com.patryk.app.rest.Model.Meme;
-import com.patryk.app.rest.Repository.MemesRepository;
 import com.patryk.app.rest.Service.*;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Optional;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.Map;
 
 @Controller
@@ -74,14 +66,9 @@ public class ApiController {
 
     @GetMapping(value = "/random")
     public String showRandomPage(Model model) {
-        String USER_NOT_FOUND_MSG = "user with name %s not found.";
 
-        long totalElements = MEMES_REPOSITORY.count();
-        long randomMemeId = ThreadLocalRandom.current().nextLong(totalElements);
-        Page<Meme> randomMemePage = MEMES_REPOSITORY.findAll(PageRequest.of(Long.valueOf(randomMemeId).intValue(), 1));
-        model.addAttribute("randomMeme", randomMemePage.getContent());
-
-        return "randomPage";
+        PAGINATION_SERVICE.showRandomPage(model);
+        return RANDOM_PAGE;
     }
 
     @PostMapping(value = "/process_register")
