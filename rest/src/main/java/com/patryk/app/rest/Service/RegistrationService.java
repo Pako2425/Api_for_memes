@@ -17,14 +17,6 @@ public class RegistrationService {
     private final UsersRepository USERS_REPOSITORY;
     private final UserService USER_SERVICE;
 
-    private final Map<RegistrationDataStatus, String> RESPONSE_MAP = Map.of(
-            RegistrationDataStatus.EMAIL_ALREADY_EXIST, "emailAlreadyInUse",
-            RegistrationDataStatus.NAME_ALREADY_EXIST, "nameAlreadyInUse",
-            RegistrationDataStatus.PASSWORD_NOT_CORRECT, "wrongPassword",
-            RegistrationDataStatus.SUCCESS, "registrationSucceeded",
-            RegistrationDataStatus.SOMETHING_WENT_WRONG, "somethingWentWrong"
-    );
-
     public RegistrationDataStatus registerDataCheck(RegistrationDAO registrationDAO) {
         List<User> users = USERS_REPOSITORY.findAllByNameOrEmail(registrationDAO.getName(), registrationDAO.getEmail());
 
@@ -56,13 +48,13 @@ public class RegistrationService {
         }
     }
 
-    public String register(RegistrationDAO registrationDAO) {
+    public RegistrationDataStatus register(RegistrationDAO registrationDAO) {
         RegistrationDataStatus registrationDataStatus = registerDataCheck(registrationDAO);
 
         if(registrationDataStatus == RegistrationDataStatus.SUCCESS) {
             USER_SERVICE.save(registrationDAO);
         }
 
-        return RESPONSE_MAP.get(registrationDataStatus);
+        return registrationDataStatus;
     }
 }
