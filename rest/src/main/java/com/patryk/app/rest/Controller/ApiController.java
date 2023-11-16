@@ -1,24 +1,18 @@
 package com.patryk.app.rest.Controller;
 
-import com.patryk.app.rest.Model.Meme;
 import com.patryk.app.rest.Model.User;
-import com.patryk.app.rest.Repository.MemesRepository;
 import com.patryk.app.rest.Repository.UsersRepository;
 import com.patryk.app.rest.Service.RegistrationDAO;
 import com.patryk.app.rest.Service.RegistrationService;
 import com.patryk.app.rest.Service.*;
-
 import lombok.AllArgsConstructor;
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.io.IOException;
-
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.ThreadLocalRandom;
-
 import java.util.Map;
 
 
@@ -31,6 +25,7 @@ public class ApiController {
     private final RegistrationService registrationService;
     private final PaginationService paginationService;
     private final UploadMemeService uploadMemeService;
+    private final AdminPanelService adminPanelService;
 
     private static final String MAIN_PAGE = "mainPage";
     private static final String RANDOM_PAGE = "randomPage";
@@ -38,6 +33,9 @@ public class ApiController {
     private static final String SIGN_IN_PAGE_FORM = "signInForm";
     private static final String TERMS_AND_CONDITIONS_FORM = "termsAndConditions";
     private static final String POST_MEME_FORM = "postMemeForm";
+    private static final String ADMIN_PANEL_USERS_LIST_PAGE = "admin_usersList";
+    private static final String USER_EDIT_PAGE = "userEdit";
+    private static final String USER_EDIT_ERROR_PAGE = "userEditError";
 
     private static final Map<RegistrationDataStatus, String> REGISTER_PROCESS_RESPONSE_MAP = Map.of(
             RegistrationDataStatus.EMAIL_ALREADY_EXIST, "emailAlreadyInUse",
@@ -86,19 +84,19 @@ public class ApiController {
 
     @GetMapping(value = "/admin/users")
     public String showUsersList(Model model) {
-        List<User> users = USERS_REPOSITORY.findAll();
-        model.addAttribute("users", users);
-        return "admin_usersList";
+        adminPanelService.showUsersList(model);
+        return ADMIN_PANEL_USERS_LIST_PAGE;
     }
 
     @GetMapping(value = "/admin/users/edit/{user_id}")
     public String userEdit(@PathVariable long user_id, Model model) {
-        Optional<User> user = USERS_REPOSITORY.findById(user_id);
-        if(user.isPresent()) {
-            model.addAttribute("user", user.get());
-            return "userEdit";
+        OperationResultDAO result = adminPanelService.showUser(user_id, model);
+        if(result.isSucess()) {
+            return USER_EDIT_PAGE;
         }
-        return "error";
+        else {
+            return USER_EDIT_ERROR_PAGE;
+        }
     }
 
     @PostMapping(value = "/admin_users_data_update")
@@ -108,17 +106,10 @@ public class ApiController {
                                      ) {
 
         User userToUpdate = USERS_REPOSITORY.getReferenceById(userId);
-        if(unlock) {
-            userToUpdate.setLocked(false);
-        }
-        else {
-            userToUpdate.setLocked(true);
-        }
+        userToUpdate.setLocked(!unlock);
         User updatedUser = USERS_REPOSITORY.save(userToUpdate);
-        System.out.println(updatedUser.getLocked());
         model.addAttribute("user", updatedUser);
-        System.out.println("Hi");
-        return "userEdit";
+        return "redirect:/admin/users/edit/" + userId;
     }
 
 
