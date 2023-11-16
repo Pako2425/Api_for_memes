@@ -31,7 +31,7 @@ public class ApiController {
             RegistrationDataStatus.SUCCESS, "registrationSucceeded",
             RegistrationDataStatus.SOMETHING_WENT_WRONG, "somethingWentWrong"
     );
-    
+
     @GetMapping(value = "/register")
     public String showRegisterPage() {
 
