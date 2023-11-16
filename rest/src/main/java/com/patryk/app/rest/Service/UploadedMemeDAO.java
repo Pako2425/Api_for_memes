@@ -9,8 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @AllArgsConstructor
 public class UploadedMemeDAO {
-    private String title;
-    private String username;
-    private String filePath;
-    private final MultipartFile meme;
+    private final String title;
+    private final MultipartFile image;
 }

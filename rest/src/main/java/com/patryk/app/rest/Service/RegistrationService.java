@@ -4,9 +4,6 @@ import com.patryk.app.rest.Model.User;
 import com.patryk.app.rest.Repository.UsersRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
-
-import java.util.Map;
 import java.util.List;
 
 @Service
@@ -14,11 +11,11 @@ import java.util.List;
 
 public class RegistrationService {
 
-    private final UsersRepository USERS_REPOSITORY;
-    private final UserService USER_SERVICE;
+    private final UsersRepository usersRepository;
+    private final UserService userService;
 
     public RegistrationDataStatus registerDataCheck(RegistrationDAO registrationDAO) {
-        List<User> users = USERS_REPOSITORY.findAllByNameOrEmail(registrationDAO.getName(), registrationDAO.getEmail());
+        List<User> users = usersRepository.findAllByNameOrEmail(registrationDAO.getName(), registrationDAO.getEmail());
 
         if(users.isEmpty()) {
             if(registrationDAO.getPassword().equals(registrationDAO.getRepeatedPassword())) {
@@ -52,7 +49,7 @@ public class RegistrationService {
         RegistrationDataStatus registrationDataStatus = registerDataCheck(registrationDAO);
 
         if(registrationDataStatus == RegistrationDataStatus.SUCCESS) {
-            USER_SERVICE.save(registrationDAO);
+            userService.save(registrationDAO);
         }
 
         return registrationDataStatus;
