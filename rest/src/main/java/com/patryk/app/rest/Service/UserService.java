@@ -10,16 +10,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
 @Service
 @AllArgsConstructor
 public class UserService implements UserDetailsService {
 
     private final String USER_NOT_FOUND_MSG = "user with name %s not found.";
-    private final UsersRepository USERS_REPOSITORY;
+    private final UsersRepository usersRepository;
     private final BCryptPasswordEncoder B_CRYPT_PASSWORD_ENCODER;
-
-
 
     public User save(RegistrationDAO registrationDAO) throws IllegalStateException {
         User user = new User(registrationDAO.getName(),
@@ -27,13 +24,11 @@ public class UserService implements UserDetailsService {
                 B_CRYPT_PASSWORD_ENCODER.encode(registrationDAO.getPassword()),
                 UserRole.USER);
 
-        return USERS_REPOSITORY.save(user);
+        return usersRepository.save(user);
     }
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        return USERS_REPOSITORY.findByName(userName).orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, userName)));
+        return usersRepository.findByName(userName).orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, userName)));
     }
 }
-
-
