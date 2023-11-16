@@ -19,9 +19,7 @@ import java.util.Map;
 @Controller
 @AllArgsConstructor
 public class ApiController {
-
-    private final UsersRepository USERS_REPOSITORY;
-
+    
     private final RegistrationService registrationService;
     private final PaginationService paginationService;
     private final UploadMemeService uploadMemeService;
@@ -99,16 +97,13 @@ public class ApiController {
         }
     }
 
-    @PostMapping(value = "/admin_users_data_update")
+    @PostMapping(value = "/admin_users_status_update")
     public String handleAdminActions(@RequestParam("id") long userId,
                                      @RequestParam("unlock") boolean unlock,
                                      Model model
                                      ) {
 
-        User userToUpdate = USERS_REPOSITORY.getReferenceById(userId);
-        userToUpdate.setLocked(!unlock);
-        User updatedUser = USERS_REPOSITORY.save(userToUpdate);
-        model.addAttribute("user", updatedUser);
+        adminPanelService.updateUserStatus(userId, unlock, model);
         return "redirect:/admin/users/edit/" + userId;
     }
 

@@ -14,7 +14,7 @@
     <h3>Locked: <span th:text="${user.locked}"></span></h3>
 
     <div th:if="${user.locked}">
-        <form action="#" th:action="@{/admin_users_data_update}" method="post">
+        <form action="#" th:action="@{/admin_users_status_update}" method="post">
             <input type="hidden" th:field="*{user.id}">
             <input type="hidden" name="unlock" value="true">
             <button type="submit" style="background-color:red; color:white">Blocked</button>
@@ -22,7 +22,7 @@
     </div>
 
     <div th:unless="${user.locked}">
-        <form action="#" th:action="@{/admin_users_data_update}" method="post">
+        <form action="#" th:action="@{/admin_users_status_update}" method="post">
             <input type="hidden" th:field="*{user.id}">
             <input type="hidden" name="unlock" value="false">
             <button type = "submit" style="background-color:green; color:white">Enabled</button>

@@ -27,4 +27,11 @@ public class AdminPanelService {
         return new OperationResultDAO(true, "User found.");
     }
 
+    public void updateUserStatus(long userId, boolean unlock, Model model) {
+        User userToUpdate = usersRepository.getReferenceById(userId);
+        userToUpdate.setLocked(!unlock);
+        User updatedUser = usersRepository.save(userToUpdate);
+        model.addAttribute("user", updatedUser);
+    }
+
 }
