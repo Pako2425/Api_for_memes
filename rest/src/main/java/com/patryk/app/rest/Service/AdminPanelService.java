@@ -1,30 +1,38 @@
 package com.patryk.app.rest.Service;
 
 import com.patryk.app.rest.Model.User;
+import com.patryk.app.rest.Model.Meme;
+import com.patryk.app.rest.Repository.MemesRepository;
 import com.patryk.app.rest.Repository.UsersRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class AdminPanelService {
     private final UsersRepository usersRepository;
+    private final MemesRepository memesRepository;
 
     public void showUsersList(Model model) {
         List<User> users = usersRepository.findAll();
         model.addAttribute("users", users);
     }
 
-    public OperationResultDAO showUser(long userId, Model model) {
-        Optional<User> user = usersRepository.findById(userId);
-        if(user.isEmpty()) {
-            return new OperationResultDAO(false, "User dont exist.");
-        }
-        model.addAttribute("user", user.get());
-        return new OperationResultDAO(true, "User found.");
+    public void showMemesList(Model model) {
+        List<Meme> memes = memesRepository.findAll();
+        model.addAttribute("memes", memes);
+    }
+
+    public void showUser(long userId, Model model) {
+        User user = usersRepository.getReferenceById(userId);
+        model.addAttribute("user", user);
+    }
+
+    public void showMeme(long memeId, Model model) {
+        Meme meme = memesRepository.getReferenceById(memeId);
+        model.addAttribute("meme", meme);
     }
 
     public void updateUserStatus(long userId, boolean unlock, Model model) {
@@ -32,6 +40,13 @@ public class AdminPanelService {
         userToUpdate.setLocked(!unlock);
         User updatedUser = usersRepository.save(userToUpdate);
         model.addAttribute("user", updatedUser);
+    }
+
+    public void updateMemeStatus(long memeId, boolean unlock, Model model) {
+        Meme memeToUpdate = memesRepository.getReferenceById(memeId);
+        memeToUpdate.setBlocked(!unlock);
+        Meme updatedMeme = memesRepository.save(memeToUpdate);
+        model.addAttribute("meme", updatedMeme);
     }
 
 }

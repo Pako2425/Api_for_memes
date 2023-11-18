@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head></head>
+
+<body style="background-color:rgb(196,196,196);">
+
+<form action="/admin/memes">
+  <input type="submit" value="Back"/>
+</form>
+
+<div>
+  <h3>ID: <span th:text="${meme.id}"></span></h3>
+  <h3>Title: <span th:text="${meme.title}"></span></h3>
+  <h3>Locked: <span th:text="${meme.blocked}"></span></h3>
+  <img th:src="'../../../' + ${meme.title} + '.jpg'">
+</div>
+
+<div th:if="${meme.blocked}">
+  <form action="#" th:action="@{/admin_memes_status_update}" method="post">
+    <input type="hidden" th:field="*{meme.id}">
+    <input type="hidden" name="unlock" value="true">
+    <button type="submit" style="background-color:red; color:white">Blocked</button>
+  </form>
+</div>
+
+<div th:unless="${meme.blocked}">
+  <form action="#" th:action="@{/admin_memes_status_update}" method="post">
+    <input type="hidden" th:field="*{meme.id}">
+    <input type="hidden" name="unlock" value="false">
+    <button type = "submit" style="background-color:green; color:white">Enabled</button>
+  </form>
+</div>
+
+</body>
+</html>

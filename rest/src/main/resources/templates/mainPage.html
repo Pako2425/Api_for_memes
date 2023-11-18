@@ -4,7 +4,6 @@
 <body>
     <h1 style="background-color: rgb(196, 196, 196);">
         <a href="/">Memy</a>
-        <a href="/waiting_room">Poczekalnia</a>
         <a href="/random">Losuj</a>
         <a href="/add_meme">Dodaj</a>
         <a href="/sign_in">Zaloguj</a>
@@ -12,7 +11,7 @@
 
     <div th:each="meme : ${memes}">
         <h1><span th:text="${meme.title}"></span></h1>
-        <img th:src="'../' + ${meme.title} + '.jpg'">
+        <img th:src="'/' + ${meme.title} + '.jpg'">
     </div>
 
     <ul class="pagination">
