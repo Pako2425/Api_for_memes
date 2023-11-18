@@ -3,7 +3,7 @@
 <head></head>
 
 <body>
-    <form action="#" th:action="@{/process_register}" th:object="${user}" method="post">
+    <form action="#" th:action="@{/process_register}" method="post">
         <label for="email">Email:</label><br>
         <input type="text" placeholder="Enter email" name="email" id="email"><br>
 
@@ -16,7 +16,7 @@
         <label for="repeatPassword">Repeat Password:</label><br>
         <input type="text" placeholder="Repeat password" name="repeatedPassword" id="repeatedPassword"><br>
 
-        I read and accepted <a href="/terms_and_conditions" target="_blank">Terms & Conditions</a><br>
+        I have read and accept <a href="/terms_and_conditions" target="_blank">Terms & Conditions</a><br>
 
         <input type="submit" value="              Register              "><br>
 

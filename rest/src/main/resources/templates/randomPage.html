@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head></head>
+<body>
+<h1 style="background-color: rgb(196, 196, 196);">
+  <a href="/">Memy</a>
+  <a href="/waiting_room">Poczekalnia</a>
+  <a href="/random">Losuj</a>
+  <a href="/add_meme">Dodaj</a>
+  <a href="/sign_in">Zaloguj</a>
+</h1>
+
+<div th:each="meme : ${randomMeme}">
+  <h1><span th:text="${meme.title}"></span></h1>
+  <img th:src="'../' + ${meme.title} + '.jpg'">
+</div>
+
+</body>
+</html>

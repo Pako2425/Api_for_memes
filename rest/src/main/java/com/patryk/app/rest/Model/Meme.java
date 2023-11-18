@@ -4,13 +4,17 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Data
+@NoArgsConstructor
 @Entity
-public class FileData {
+@Table(name="memes")
+public class Meme {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String name;
-    private String type;
+    private String title;
+    private String username;
+    private long userId;
     private String filePath;
+    private boolean blocked;
+    private int likesNumber;
 }

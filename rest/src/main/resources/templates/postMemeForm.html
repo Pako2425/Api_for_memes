@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+
+
+<form method="post" th:action="@{/post_meme}" enctype="multipart/form-data">
+
+    <pre>
+    	Title: <input type="text" name="title" id="title">
+
+    	Meme: <input type="file" name="image" accept="image/*" class="form-control-file">
+
+    	<input type="submit" value="Submit">
+    </pre>
+</form>
+</body>
+</html>
