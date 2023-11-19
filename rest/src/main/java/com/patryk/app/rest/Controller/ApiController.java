@@ -1,9 +1,11 @@
 package com.patryk.app.rest.Controller;
 
+import com.patryk.app.rest.Model.User;
 import com.patryk.app.rest.Service.RegistrationDAO;
 import com.patryk.app.rest.Service.RegistrationService;
 import com.patryk.app.rest.Service.*;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -44,7 +46,7 @@ public class ApiController {
         return REGISTER_PAGE_FORM;
     }
 
-    @GetMapping(value = "/sign_in")
+    @GetMapping(value = "/login")
     public String viewSignInPage() {
 
         return SIGN_IN_PAGE_FORM;
@@ -62,8 +64,12 @@ public class ApiController {
     }
 
     @GetMapping(value = "/")
-    public String showMainPage(@RequestParam(defaultValue = "0", name="page") int page, Model model) {
-
+    public String showMainPage(@RequestParam(defaultValue = "0", name="page") int page, Model model, Authentication authentication) {
+        //if (authentication != null && authentication.isAuthenticated()) {
+        //    String username = authentication.getName();
+        //    model.addAttribute("username", username);
+        //    System.out.println(username);
+        //}
         paginationService.showMainPage(page, model);
         return MAIN_PAGE;
     }
