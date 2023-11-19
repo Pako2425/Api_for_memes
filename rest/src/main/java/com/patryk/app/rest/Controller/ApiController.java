@@ -1,6 +1,5 @@
 package com.patryk.app.rest.Controller;
 
-import com.patryk.app.rest.Model.User;
 import com.patryk.app.rest.Service.RegistrationDAO;
 import com.patryk.app.rest.Service.RegistrationService;
 import com.patryk.app.rest.Service.*;
@@ -31,6 +30,7 @@ public class ApiController {
     private static final String USER_EDIT_PAGE = "userEdit";
     private static final String ADMIN_PANEL_MEMES_LIST_PAGE = "admin_memesList";
     private static final String MEME_EDIT_PAGE = "memeEdit";
+    private static final String ADMIN_PANEL_PAGE = "adminPanel";
 
     private static final Map<RegistrationDataStatus, String> REGISTER_PROCESS_RESPONSE_MAP = Map.of(
             RegistrationDataStatus.EMAIL_ALREADY_EXIST, "emailAlreadyInUse",
@@ -65,18 +65,16 @@ public class ApiController {
 
     @GetMapping(value = "/")
     public String showMainPage(@RequestParam(defaultValue = "0", name="page") int page, Model model, Authentication authentication) {
-        //if (authentication != null && authentication.isAuthenticated()) {
-        //    String username = authentication.getName();
-        //    model.addAttribute("username", username);
-        //    System.out.println(username);
-        //}
+        boolean isAuthenticated = (authentication != null && authentication.isAuthenticated());
+        model.addAttribute("isAuthenticated", isAuthenticated);
         paginationService.showMainPage(page, model);
         return MAIN_PAGE;
     }
 
     @GetMapping(value = "/random")
-    public String showRandomPage(Model model) {
-
+    public String showRandomPage(Model model, Authentication authentication) {
+        boolean isAuthenticated = (authentication != null && authentication.isAuthenticated());
+        model.addAttribute("isAuthenticated", isAuthenticated);
         paginationService.showRandomPage(model);
         return RANDOM_PAGE;
     }
@@ -103,6 +101,11 @@ public class ApiController {
     public String memeEdit(@PathVariable long meme_id, Model model) {
         adminPanelService.showMeme(meme_id, model);
         return MEME_EDIT_PAGE;
+    }
+
+    @GetMapping(value = "/admin")
+    public String showAdminPanel() {
+        return ADMIN_PANEL_PAGE;
     }
 
     @PostMapping(value = "/admin_users_status_update")

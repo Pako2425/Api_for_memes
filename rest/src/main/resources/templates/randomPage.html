@@ -6,7 +6,8 @@
   <a href="/">Memy</a>
   <a href="/random">Losuj</a>
   <a href="/add_meme">Dodaj</a>
-  <a href="/sign_in">Zaloguj</a>
+  <a th:if="${isAuthenticated}" th:href="@{/logout}">Wyloguj się</a>
+  <a th:unless="${isAuthenticated}" th:href="@{/login}">Zaloguj się</a>
 </h1>
 
 <div th:each="meme : ${randomMeme}">

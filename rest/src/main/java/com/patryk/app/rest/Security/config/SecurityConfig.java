@@ -18,30 +18,12 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        /*http
-                .authorizeHttpRequests(authorize ->
-                        authorize
-                                .requestMatchers("/random").authenticated()
-                                .anyRequest().permitAll()
-                ).formLogin(form ->
-                        form
-                                .loginPage("/login")
-                                .loginProcessingUrl("/login")
-                                .defaultSuccessUrl("/")
-                                .permitAll()
-                ).logout(logout ->
-                        logout
-                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                                .permitAll()
-                );*/
-
         http.csrf().disable()
                 .authorizeHttpRequests((authorize) ->
-                        authorize.requestMatchers("/").permitAll()
-                                .requestMatchers("/register/**").permitAll()
-                                .requestMatchers("/terms_and_conditions").permitAll()
-                                .requestMatchers("/random").hasRole("ADMIN")
-                                .requestMatchers("/add_meme").hasRole(("USER"))
+                        authorize
+                                .requestMatchers("/", "/login", "/register", "/terms_and_conditions").permitAll()
+                                .requestMatchers("/random", "/add_meme").authenticated()
+                                .requestMatchers("/admin", "/admin/**").hasRole(("ADMIN"))
                                 .anyRequest().permitAll()
                 ).formLogin(
                         form -> form
@@ -52,11 +34,11 @@ public class SecurityConfig {
                 ).logout(
                         logout -> logout
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                                .logoutSuccessUrl("/")
                                 .permitAll()
                 );
 
         return http.build();
-
     }
 
     @Bean
