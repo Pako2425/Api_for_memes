@@ -19,6 +19,7 @@ public class ApiController {
     private final PaginationService paginationService;
     private final UploadMemeService uploadMemeService;
     private final AdminPanelService adminPanelService;
+    private final SecurityService securityService;
 
     private static final String MAIN_PAGE = "mainPage";
     private static final String RANDOM_PAGE = "randomPage";
@@ -65,16 +66,14 @@ public class ApiController {
 
     @GetMapping(value = "/")
     public String showMainPage(@RequestParam(defaultValue = "0", name="page") int page, Model model, Authentication authentication) {
-        boolean isAuthenticated = (authentication != null && authentication.isAuthenticated());
-        model.addAttribute("isAuthenticated", isAuthenticated);
+        securityService.authenticate(authentication, model);
         paginationService.showMainPage(page, model);
         return MAIN_PAGE;
     }
 
     @GetMapping(value = "/random")
     public String showRandomPage(Model model, Authentication authentication) {
-        boolean isAuthenticated = (authentication != null && authentication.isAuthenticated());
-        model.addAttribute("isAuthenticated", isAuthenticated);
+        securityService.authenticate(authentication, model);
         paginationService.showRandomPage(model);
         return RANDOM_PAGE;
     }
@@ -126,7 +125,6 @@ public class ApiController {
         adminPanelService.updateMemeStatus(memeId, unlock, model);
         return "redirect:/admin/memes/edit/" + memeId;
     }
-
 
     @PostMapping(value = "/process_register")
     public String handleRegisterData(@ModelAttribute RegistrationDAO registrationDAO) {
