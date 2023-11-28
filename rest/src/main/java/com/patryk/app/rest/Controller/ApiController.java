@@ -4,6 +4,7 @@ import com.patryk.app.rest.Service.RegistrationDAO;
 import com.patryk.app.rest.Service.RegistrationService;
 import com.patryk.app.rest.Service.*;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ public class ApiController {
     private final PaginationService paginationService;
     private final UploadMemeService uploadMemeService;
     private final AdminPanelService adminPanelService;
+    private final SecurityService securityService;
 
     private static final String MAIN_PAGE = "mainPage";
     private static final String RANDOM_PAGE = "randomPage";
@@ -29,6 +31,7 @@ public class ApiController {
     private static final String USER_EDIT_PAGE = "userEdit";
     private static final String ADMIN_PANEL_MEMES_LIST_PAGE = "admin_memesList";
     private static final String MEME_EDIT_PAGE = "memeEdit";
+    private static final String ADMIN_PANEL_PAGE = "adminPanel";
 
     private static final Map<RegistrationDataStatus, String> REGISTER_PROCESS_RESPONSE_MAP = Map.of(
             RegistrationDataStatus.EMAIL_ALREADY_EXIST, "emailAlreadyInUse",
@@ -44,7 +47,7 @@ public class ApiController {
         return REGISTER_PAGE_FORM;
     }
 
-    @GetMapping(value = "/sign_in")
+    @GetMapping(value = "/login")
     public String viewSignInPage() {
 
         return SIGN_IN_PAGE_FORM;
@@ -62,15 +65,15 @@ public class ApiController {
     }
 
     @GetMapping(value = "/")
-    public String showMainPage(@RequestParam(defaultValue = "0", name="page") int page, Model model) {
-
+    public String showMainPage(@RequestParam(defaultValue = "0", name="page") int page, Model model, Authentication authentication) {
+        securityService.authenticate(authentication, model);
         paginationService.showMainPage(page, model);
         return MAIN_PAGE;
     }
 
     @GetMapping(value = "/random")
-    public String showRandomPage(Model model) {
-
+    public String showRandomPage(Model model, Authentication authentication) {
+        securityService.authenticate(authentication, model);
         paginationService.showRandomPage(model);
         return RANDOM_PAGE;
     }
@@ -99,6 +102,11 @@ public class ApiController {
         return MEME_EDIT_PAGE;
     }
 
+    @GetMapping(value = "/admin")
+    public String showAdminPanel() {
+        return ADMIN_PANEL_PAGE;
+    }
+
     @PostMapping(value = "/admin_users_status_update")
     public String handleAdminUsersActions(@RequestParam("id") long userId,
                                      @RequestParam("unlock") boolean unlock,
@@ -117,7 +125,6 @@ public class ApiController {
         adminPanelService.updateMemeStatus(memeId, unlock, model);
         return "redirect:/admin/memes/edit/" + memeId;
     }
-
 
     @PostMapping(value = "/process_register")
     public String handleRegisterData(@ModelAttribute RegistrationDAO registrationDAO) {

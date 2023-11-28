@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html>
-<form>
-  <label for="nickname">Nickname:</label><br>
-  <input type="text" placeholder="Enter nickname" name="nickname" id="nickname"><br>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+<form method="post" role="form" th:action="@{/login}">
+
+  <label for="username">Nickname:</label><br>
+  <input type="text" placeholder="Enter nickname" name="username" id="username"><br>
 
   <label for="password">Password:</label><br>
   <input type="text" placeholder="Enter password" name="password" id="password"><br>
@@ -10,6 +12,6 @@
   <input type="submit" value="Log in">
 
   <a href="/register">Create an account</a>
-
 </form>
+</body>
 </html>

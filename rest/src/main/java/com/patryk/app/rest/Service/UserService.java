@@ -22,13 +22,13 @@ public class UserService implements UserDetailsService {
         User user = new User(registrationDAO.getName(),
                 registrationDAO.getEmail(),
                 B_CRYPT_PASSWORD_ENCODER.encode(registrationDAO.getPassword()),
-                UserRole.USER);
+                UserRole.ROLE_USER);
 
         return usersRepository.save(user);
     }
 
     @Override
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        return usersRepository.findByName(userName).orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, userName)));
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return usersRepository.findByName(username).orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, username)));
     }
 }
