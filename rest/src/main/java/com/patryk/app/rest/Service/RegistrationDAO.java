@@ -8,8 +8,8 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 public class RegistrationDAO {
-    private final String email;
-    private final String name;
-    private final String password;
-    private final String repeatedPassword;
+    private String email;
+    private String name;
+    private String password;
+    private String repeatedPassword;
 }

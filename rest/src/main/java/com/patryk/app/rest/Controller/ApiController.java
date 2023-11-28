@@ -1,11 +1,12 @@
 package com.patryk.app.rest.Controller;
 
+import com.patryk.app.rest.Service.RegistrationDAO;
+import com.patryk.app.rest.Service.RegistrationService;
 import com.patryk.app.rest.Service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.io.IOException;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ public class ApiController {
     private final RegistrationService registrationService;
     private final PaginationService paginationService;
     private final UploadMemeService uploadMemeService;
+    private final AdminPanelService adminPanelService;
 
     private static final String MAIN_PAGE = "mainPage";
     private static final String RANDOM_PAGE = "randomPage";
@@ -23,6 +25,10 @@ public class ApiController {
     private static final String SIGN_IN_PAGE_FORM = "signInForm";
     private static final String TERMS_AND_CONDITIONS_FORM = "termsAndConditions";
     private static final String POST_MEME_FORM = "postMemeForm";
+    private static final String ADMIN_PANEL_USERS_LIST_PAGE = "admin_usersList";
+    private static final String USER_EDIT_PAGE = "userEdit";
+    private static final String ADMIN_PANEL_MEMES_LIST_PAGE = "admin_memesList";
+    private static final String MEME_EDIT_PAGE = "memeEdit";
 
     private static final Map<RegistrationDataStatus, String> REGISTER_PROCESS_RESPONSE_MAP = Map.of(
             RegistrationDataStatus.EMAIL_ALREADY_EXIST, "emailAlreadyInUse",
@@ -68,6 +74,50 @@ public class ApiController {
         paginationService.showRandomPage(model);
         return RANDOM_PAGE;
     }
+
+    @GetMapping(value = "/admin/users")
+    public String showUsersList(Model model) {
+        adminPanelService.showUsersList(model);
+        return ADMIN_PANEL_USERS_LIST_PAGE;
+    }
+
+    @GetMapping(value = "/admin/users/edit/{user_id}")
+    public String userEdit(@PathVariable long user_id, Model model) {
+        adminPanelService.showUser(user_id, model);
+        return USER_EDIT_PAGE;
+    }
+
+    @GetMapping(value = "/admin/memes")
+    public String showMemesList(Model model) {
+        adminPanelService.showMemesList(model);
+        return ADMIN_PANEL_MEMES_LIST_PAGE;
+    }
+
+    @GetMapping(value = "/admin/memes/edit/{meme_id}")
+    public String memeEdit(@PathVariable long meme_id, Model model) {
+        adminPanelService.showMeme(meme_id, model);
+        return MEME_EDIT_PAGE;
+    }
+
+    @PostMapping(value = "/admin_users_status_update")
+    public String handleAdminUsersActions(@RequestParam("id") long userId,
+                                     @RequestParam("unlock") boolean unlock,
+                                     Model model
+                                     ) {
+
+        adminPanelService.updateUserStatus(userId, unlock, model);
+        return "redirect:/admin/users/edit/" + userId;
+    }
+
+    @PostMapping(value = "/admin_memes_status_update")
+    public String handleAdminMemesAction(@RequestParam("id") long memeId,
+                                         @RequestParam("unlock") boolean unlock,
+                                         Model model) {
+
+        adminPanelService.updateMemeStatus(memeId, unlock, model);
+        return "redirect:/admin/memes/edit/" + memeId;
+    }
+
 
     @PostMapping(value = "/process_register")
     public String handleRegisterData(@ModelAttribute RegistrationDAO registrationDAO) {

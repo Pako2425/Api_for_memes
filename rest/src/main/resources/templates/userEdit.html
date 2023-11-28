@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head></head>
+
+<body style="background-color:rgb(196,196,196);">
+
+    <form action="/admin/users">
+        <input type="submit" value="Back"/>
+    </form>
+
+    <h3>ID: <span th:text="${user.id}"></span></h3>
+    <h3>Username: <span th:text="${user.name}"></span></h3>
+    <h3>Email: <span th:text="${user.email}"></span></h3>
+    <h3>Locked: <span th:text="${user.locked}"></span></h3>
+
+    <div th:if="${user.locked}">
+        <form action="#" th:action="@{/admin_users_status_update}" method="post">
+            <input type="hidden" th:field="*{user.id}">
+            <input type="hidden" name="unlock" value="true">
+            <button type="submit" style="background-color:red; color:white">Blocked</button>
+        </form>
+    </div>
+
+    <div th:unless="${user.locked}">
+        <form action="#" th:action="@{/admin_users_status_update}" method="post">
+            <input type="hidden" th:field="*{user.id}">
+            <input type="hidden" name="unlock" value="false">
+            <button type = "submit" style="background-color:green; color:white">Enabled</button>
+        </form>
+    </div>
+
+</body>
+</html>

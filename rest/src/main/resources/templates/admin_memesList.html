@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Home page</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body>
+
+<div style="text-align: center;">
+  <table>
+    <thead>
+    <tr>
+      <td th:text="id"></td>
+      <td th:text="title"></td>
+      <td th:text="blocked"></td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="meme : ${memes}">
+      <td th:text="${meme.id}">Nazwa</td>
+      <td th:text="${meme.title}">Wartość</td>
+      <td th:text="${meme.blocked}">Wartość</td>
+      <td>
+        <a th:href="@{'/admin/memes/edit/' + ${meme.id}}" class="btn btn-primary">Edytuj</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+
+</html>
