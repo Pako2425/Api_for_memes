@@ -48,3 +48,14 @@ INSERT INTO memes VALUES (23, 'D:/memes/Tytul.jpg', 'Tytul', NULL, 0, 0, 0);
 INSERT INTO memes VALUES (24, 'D:/memes/Podobna do ojca.jpg', 'Podobna do ojca', NULL, 0, 0, 0);
 INSERT INTO memes VALUES (25, 'D:/memes/Poczta.jpg', 'Poczta', NULL, 0, 0, 0);
 INSERT INTO memes VALUES (27, 'D:/memes/Porzadek.jpg', 'Porzadek', NULL, 0, 0, 0);
+
+CREATE TABLE comments (
+  comment_id BIGINT(20),
+  meme_id BIGINT(20),
+  user_id BIGINT(20),
+  content VARCHAR(255),
+  parent_comment_id BIGINT(20)
+);
+
+INSERT INTO comments VALUES (1, 342, 14657, "Pierwszy!!! XDDD", 15);
+
