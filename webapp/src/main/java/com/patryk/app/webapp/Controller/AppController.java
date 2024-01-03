@@ -1,5 +1,6 @@
 package com.patryk.app.webapp.Controller;
 
+import com.dropbox.core.DbxException;
 import com.patryk.app.webapp.Service.RegistrationDAO;
 import com.patryk.app.webapp.Service.RegistrationService;
 import com.patryk.app.webapp.Service.*;
@@ -135,7 +136,8 @@ public class AppController {
     }
 
     @PostMapping(value = "/post_meme")
-    public String uploadImage(@ModelAttribute UploadedMemeDAO uploadedMemeDAO)  throws IOException {
+    public String uploadImage(@ModelAttribute UploadedMemeDAO uploadedMemeDAO)  throws IOException, DbxException {
+        System.out.println("upload meme service");
         uploadMemeService.postMeme(uploadedMemeDAO);
         return "redirect:/";
     }

@@ -1,5 +1,5 @@
 CREATE TABLE users (
-  id BIGINT(20) PRIMARY KEY,
+  id BIGINT(20) AUTO_INCREMENT PRIMARY KEY,
   email VARCHAR(255),
   name VARCHAR(255),
   password VARCHAR(255),
@@ -29,13 +29,13 @@ INSERT INTO users VALUES (48, 'zz@g.com', 'zz', '$2a$10$IJF0bKa9uScscqXBaL6I6eaW
 INSERT INTO users VALUES (49, 'admin@g.com', 'admin', '$2a$10$tXMTbxksxuLmHNoGfrk0eepBfNcPiJUoyx/SX86JKcM8CSMSVO9Cy', NULL, NULL, 'ROLE_ADMIN', 1, 0);
 
 CREATE TABLE memes (
-  id BIGINT(20) PRIMARY KEY,
+  id BIGINT(20) AUTO_INCREMENT PRIMARY KEY,
   file_path VARCHAR(255),
   title VARCHAR(255),
-  username VARCHAR(255),
-  blocked BIT(1),
-  likes_number INT(11),
-  user_id BIGINT(20)
+  username VARCHAR(255) DEFAULT NULL,
+  blocked BIT(1) DEFAULT 0,
+  likes_number INT(11) DEFAULT 0,
+  user_id BIGINT(20) DEFAULT 0
 );
 
 INSERT INTO memes VALUES (16, 'D:/memes/abc.jpg', 'abc', NULL, 0, 0, 0);
