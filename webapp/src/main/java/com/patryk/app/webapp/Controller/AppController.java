@@ -67,11 +67,15 @@ public class AppController {
     }
 
     @GetMapping(value = "/")
-    public String showMainPage(@RequestParam(defaultValue = "0", name="page") int page, Model model, Authentication authentication) {
-        securityService.authenticate(authentication, model);
-        paginationService.showMainPage(page, model);
-        return MAIN_PAGE;
+    public String showMainPage() {
+
+        return "main";
     }
+    //public String showMainPage(@RequestParam(defaultValue = "0", name="page") int page, Model model, Authentication authentication) {
+    //    securityService.authenticate(authentication, model);
+    //    paginationService.showMainPage(page, model);
+    //    return MAIN_PAGE;
+    //}
 
     @GetMapping(value = "/random")
     public String showRandomPage(Model model, Authentication authentication) {
@@ -138,7 +142,7 @@ public class AppController {
     @PostMapping(value = "/post_meme")
     public String uploadImage(@ModelAttribute UploadedMemeDAO uploadedMemeDAO)  throws IOException, DbxException {
         System.out.println("upload meme service");
-        uploadMemeService.postMeme(uploadedMemeDAO);
+        uploadMemeService.processUploadedMemeData(uploadedMemeDAO);
         return "redirect:/";
     }
 }

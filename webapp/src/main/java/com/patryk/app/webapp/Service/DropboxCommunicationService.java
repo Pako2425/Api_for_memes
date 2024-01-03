@@ -4,7 +4,12 @@ import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.files.FileMetadata;
+import com.dropbox.core.v2.files.Metadata;
+import com.dropbox.core.v2.files.WriteMode;
+import com.dropbox.core.v2.sharing.SharedLinkMetadata;
+import com.dropbox.core.v2.sharing.SharedLinkSettings;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
@@ -13,28 +18,27 @@ import java.io.InputStream;
 
 @Service
 public class DropboxCommunicationService {
-    private static final String ACCESS_TOKEN = "sl.Bs7yPDu08iVq4BcbCQSrop2rUaxbWvUE8VbxGHBwwRbpjNjQv80vleJoT0Es1alefb2ipYlHYxexkgOIqit7EyMWZ32Rey-FsXVO3YWOXrSDlFMaM-LAHf2_4WI5aw15CwB4VVlLgrVN1IhEl3WZxwk";
+    private static final String ACCESS_TOKEN = "sl.Bs9TYwOsZX9z2rnnXtFBqvNGEgcyn99QtRK-g8vHlXxa2UM1v39ofzUzt08pDR358IsNXb3sc3sFgU5Pl4Zc7ZtD-Lq78O7bAUTRbhQoX-E9ueHkxDn9y6RI7QANket3_o8nX7k_T-6W8syWjXjFvTE";
     private DbxRequestConfig config = DbxRequestConfig.newBuilder("dropbox/java-tutorial").build();
     private DbxClientV2 client = new DbxClientV2(config, ACCESS_TOKEN);
 
-    public void saveImage(byte[] image, String path) throws IOException, DbxException {
-        System.out.println("before meme read");
-        try (InputStream in = new FileInputStream("D:/memes/abc.jpg")) {
-            System.out.println("after meme read");
-            FileMetadata metadata = client.files().uploadBuilder("/memes/abc.jpg")
-                    .uploadAndFinish(in);
-            System.out.println("try upload");
-            //client.files().uploadBuilder(path).uploadAndFinish(new ByteArrayInputStream(image));
-        }
+    public String saveImage(MultipartFile image, String path) throws IOException, DbxException {
+        FileMetadata uploadedFile = client.files().uploadBuilder(path)
+                .withMode(WriteMode.ADD)
+                .uploadAndFinish(image.getInputStream());
+
+        String link = client.files().getTemporaryLink(path).getLink();
+        System.out.println("Link: " + link);
+        return uploadedFile.getId();
     }
 
-    //public void saveMeme() throws IOException, DbxException {
-    //    try (InputStream in = new FileInputStream("test.txt")) {
-    //        FileMetadata metadata = client.files().uploadBuilder("/test.txt")
-    //                .uploadAndFinish(in);
-    //}
+    public String getImagePath(String fileId) throws DbxException {
+        Metadata metadata = client.files().getMetadata(fileId);
+        if(metadata instanceof FileMetadata) {
+            FileMetadata fileMetadata = (FileMetadata) metadata;
+            return fileMetadata.getPathDisplay();
+        }
+        return null;
+    }
 
-    //public void loadMeme(String name) {
-    //
-    //}
 }
