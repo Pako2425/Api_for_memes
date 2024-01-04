@@ -1,6 +1,7 @@
 package com.patryk.app.webapp.Controller;
 
 import com.dropbox.core.DbxException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.patryk.app.webapp.Service.RegistrationDAO;
 import com.patryk.app.webapp.Service.RegistrationService;
 import com.patryk.app.webapp.Service.*;
@@ -22,6 +23,8 @@ public class AppController {
     private final UploadMemeService uploadMemeService;
     private final AdminPanelService adminPanelService;
     private final SecurityService securityService;
+
+    private final DropboxCommunicationService dropboxCommunicationService;
 
     private static final String MAIN_PAGE = "mainPage";
     private static final String RANDOM_PAGE = "randomPage";
@@ -76,6 +79,11 @@ public class AppController {
     //    paginationService.showMainPage(page, model);
     //    return MAIN_PAGE;
     //}
+
+    @GetMapping(value = "/token")
+    public String generateToken() throws JsonProcessingException {
+        return dropboxCommunicationService.generateAccessToken();
+    }
 
     @GetMapping(value = "/random")
     public String showRandomPage(Model model, Authentication authentication) {
