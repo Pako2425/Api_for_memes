@@ -12,7 +12,8 @@
 
     <div th:each="meme : ${memes}">
         <h1><span th:text="${meme.title}"></span></h1>
-        <img th:src="'/' + ${meme.title} + '.jpg'">
+        <!--<img th:src="'/' + ${meme.title} + '.jpg'">-->
+        <img th:src="${meme.filePath}">
     </div>
 
     <ul class="pagination">

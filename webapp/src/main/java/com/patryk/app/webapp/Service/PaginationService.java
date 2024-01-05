@@ -35,6 +35,7 @@ public class PaginationService {
         Page<Meme> memesPage = memesRepository.findAll(PageRequest.of(pageIndex, MAIN_PAGE_SIZE, Sort.Direction.DESC, "id"));
         List<Meme> memes = memesPage.getContent();
         model.addAttribute("memes", memes);
+        System.out.println(model.getAttribute("memes"));
         int totalPages = memesPage.getTotalPages();
 
         pagePagination(MAX_MAIN_PAGE_LINKS, totalPages, pageIndex, model);

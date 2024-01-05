@@ -15,11 +15,11 @@ public class UploadMemeService {
     private static final String DROPBOX_FILE_SAVING_PATH = "/memes/";
     private final DropboxCommunicationService dropboxCommunicationService;
 
-    public Meme processUploadedMemeData(UploadedMemeDAO uploadedMemeDAO) throws IOException, DbxException {
+    public Meme saveMeme(UploadedMemeDAO uploadedMemeDAO) throws IOException, DbxException {
         Meme meme = new Meme();
         meme.setTitle(uploadedMemeDAO.getTitle());
         //String filePath = FILE_SAVING_PATH + meme.getTitle() + ".jpg";
-        String filePath = dropboxCommunicationService.saveImage(uploadedMemeDAO.getImage(), DROPBOX_FILE_SAVING_PATH);
+        String filePath = dropboxCommunicationService.saveImage(uploadedMemeDAO.getImage(), DROPBOX_FILE_SAVING_PATH + meme.getTitle() + ".jpg");
         meme.setFilePath(filePath);
         memesRepository.save(meme);
         return meme;

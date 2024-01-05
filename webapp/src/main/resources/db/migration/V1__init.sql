@@ -38,13 +38,14 @@ CREATE TABLE memes (
   user_id BIGINT(20) DEFAULT 0
 );
 
-INSERT INTO memes VALUES (16, 'D:/memes/abc.jpg', 'abc', NULL, 0, 0, 0);
-INSERT INTO memes VALUES (17, 'D:/memes/zzz.jpg', 'zzz', NULL, 0, 0, 0);
-INSERT INTO memes VALUES (18, 'D:/memes/rtuyinbv.jpg', 'rtuyinbv', NULL, 0, 0, 0);
-INSERT INTO memes VALUES (19, 'D:/memes/sfhjkuyyfgfg.jpg', 'sfhjkuyyfgfg', NULL, 0, 0, 0);
-INSERT INTO memes VALUES (20, 'D:/memes/lk,nmgngfhnhdfgh.jpg', 'lk,nmgngfhnhdfgh', NULL, 0, 0, 0);
-INSERT INTO memes VALUES (21, 'D:/memes/sdfgjm.jpg', 'sdfgjm', NULL, 0, 0, 0);
-INSERT INTO memes VALUES (23, 'D:/memes/Tytul.jpg', 'Tytul', NULL, 0, 0, 0);
-INSERT INTO memes VALUES (24, 'D:/memes/Podobna do ojca.jpg', 'Podobna do ojca', NULL, 0, 0, 0);
-INSERT INTO memes VALUES (25, 'D:/memes/Poczta.jpg', 'Poczta', NULL, 0, 0, 0);
-INSERT INTO memes VALUES (27, 'D:/memes/Porzadek.jpg', 'Porzadek', NULL, 0, 0, 0);
+INSERT INTO memes VALUES (1, 'https://www.dropbox.com/scl/fi/o013xg47vyo8h2332at5e/weqrtyuiopuytrew.jpg?rlkey=f1bg3c9zv7zzxos6ork9nghkw&dl=0&dl=1', 'abc', NULL, 0, 0, 0);
+--INSERT INTO memes VALUES (16, 'D:/memes/abc.jpg', 'abc', NULL, 0, 0, 0);
+--INSERT INTO memes VALUES (17, 'D:/memes/zzz.jpg', 'zzz', NULL, 0, 0, 0);
+--INSERT INTO memes VALUES (18, 'D:/memes/rtuyinbv.jpg', 'rtuyinbv', NULL, 0, 0, 0);
+--INSERT INTO memes VALUES (19, 'D:/memes/sfhjkuyyfgfg.jpg', 'sfhjkuyyfgfg', NULL, 0, 0, 0);
+--INSERT INTO memes VALUES (20, 'D:/memes/lk,nmgngfhnhdfgh.jpg', 'lk,nmgngfhnhdfgh', NULL, 0, 0, 0);
+--INSERT INTO memes VALUES (21, 'D:/memes/sdfgjm.jpg', 'sdfgjm', NULL, 0, 0, 0);
+--INSERT INTO memes VALUES (23, 'D:/memes/Tytul.jpg', 'Tytul', NULL, 0, 0, 0);
+--INSERT INTO memes VALUES (24, 'D:/memes/Podobna do ojca.jpg', 'Podobna do ojca', NULL, 0, 0, 0);
+--INSERT INTO memes VALUES (25, 'D:/memes/Poczta.jpg', 'Poczta', NULL, 0, 0, 0);
+--INSERT INTO memes VALUES (27, 'D:/memes/Porzadek.jpg', 'Porzadek', NULL, 0, 0, 0);
