@@ -7,8 +7,6 @@ import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.files.FileMetadata;
 import com.dropbox.core.v2.files.Metadata;
 import com.dropbox.core.v2.files.WriteMode;
-import com.dropbox.core.v2.sharing.SharedLinkMetadata;
-import com.dropbox.core.v2.sharing.SharedLinkSettings;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,59 +19,55 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.HandlerExceptionResolver;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 
 @Service
 public class DropboxCommunicationService {
-    private static String ACCESS_TOKEN = "sl.Bs8KqZbYYZCTUU1fHdPRYSYj9SdimOf1AMSLVWYYWLCu4GEitjVvP-drOM3xPw4QwtyVRZIR6nDNmCR7mZPtUyO-gMO43kXMaSiJYHYw2a2Hqw80samGMF72wV2fkQSl0gGriIf33m3Ed_o";
-    //private DbxRequestConfig config = DbxRequestConfig.newBuilder("dropbox/java-tutorial").build();
-    //private DbxClientV2 client = new DbxClientV2(config, ACCESS_TOKEN);
+    private static String ACCESS_TOKEN = "sl.BtFTXpmy4y1l1knSN9DrclF4yRPz7VS6JoZtAQGRC5KDiX_n2mzDy_8gPLkj1OdCpvuGMG7HbWT29J7rqwydwKU0rTkhZsbiWExihPqQWJ8i_yQjeqOw3WenrZnfrysLAUB_W7jmnqrhmb4";
+    DbxRequestConfig config = DbxRequestConfig.newBuilder("dropbox/java-tutorial").build();
 
     private String clientId = "pgur7x6tw12qoh1";
     private String clientSecret = "n3vbftnk5sfemym";
     private String tokenUrl = "https://api.dropbox.com/oauth2/token";
-    private String refreshToken = "8kHwpCWZLIIAAAAAAAAAAcZGisOnvyKJkditmpnaDJgdJeZsmGYJpyCYBegXv2G3";
-    DbxRequestConfig config = DbxRequestConfig.newBuilder("dropbox/java-tutorial").build();
+    private String refreshToken = "-c_nmGpq9Y8AAAAAAAAAAfnh1lmXjfCakCuuVq9aa4PHPwHSjY2iMp95cDjG0Vgz";
+
 
     public String saveImage(MultipartFile image, String path) throws IOException, DbxException {
-        try {
-            DbxClientV2 client = new DbxClientV2(config, ACCESS_TOKEN);
-            System.out.println(ACCESS_TOKEN);
-            FileMetadata uploadedFile = client.files().uploadBuilder(path)
-                    .withMode(WriteMode.ADD)
-                    .uploadAndFinish(image.getInputStream());
-            String link = client.files().getTemporaryLink(path).getLink();
-            System.out.println("Link: " + link);
-            return uploadedFile.getId();
-        } catch(InvalidAccessTokenException e) {
-            ACCESS_TOKEN = generateAccessToken();
-            System.out.println(ACCESS_TOKEN);
-            DbxClientV2 client = new DbxClientV2(config, ACCESS_TOKEN);
-            FileMetadata uploadedFile = client.files().uploadBuilder(path)
-                    .withMode(WriteMode.ADD)
-                    .uploadAndFinish(image.getInputStream());
-            String link = client.files().getTemporaryLink(path).getLink();
-            System.out.println("Link: " + link);
-        }
-        return "";
-    }
-
-    public String getImagePath(String fileId) throws DbxException {
+        String imageSharedLink = "";
         DbxClientV2 client = new DbxClientV2(config, ACCESS_TOKEN);
-        Metadata metadata = client.files().getMetadata(fileId);
-        if(metadata instanceof FileMetadata) {
-            FileMetadata fileMetadata = (FileMetadata) metadata;
-            return fileMetadata.getPathDisplay();
+
+        try {
+            Metadata uploadedFile = uploadImage(client, image, path);
+            imageSharedLink = getImageShareUrl(client, uploadedFile);
+        } catch(InvalidAccessTokenException e) {
+            ACCESS_TOKEN = generateNewAccessToken();
+            client = new DbxClientV2(config, ACCESS_TOKEN);
+            Metadata uploadedFile = uploadImage(client, image, path);
+            imageSharedLink = getImageShareUrl(client, uploadedFile);
         }
-        return null;
+        System.out.println(imageSharedLink);
+        return imageSharedLink;
     }
 
-    public String generateAccessToken() throws JsonProcessingException {
+    public FileMetadata uploadImage(DbxClientV2 client, MultipartFile image, String path) throws IOException, DbxException {
+        return client.files().uploadBuilder(path)
+                .withMode(WriteMode.ADD)
+                .uploadAndFinish(image.getInputStream());
+    }
+
+    private String getImageShareUrl(DbxClientV2 client, Metadata image) throws DbxException {
+        String sharedLink = client.sharing().createSharedLinkWithSettings(image.getPathDisplay()).getUrl();
+        sharedLink = UriComponentsBuilder.fromUriString(sharedLink)
+                .queryParam("dl", 1)
+                .build()
+                .toString();
+        return sharedLink;
+    }
+
+    public String generateNewAccessToken() throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -92,7 +86,6 @@ public class DropboxCommunicationService {
             String newAccessToken = response.getBody();
             JsonNode jsonNode = objectMapper.readTree(newAccessToken);
             String accessToken = jsonNode.get("access_token").asText();
-            System.out.println(accessToken);
             return accessToken;
         } else {
             System.out.println("null");

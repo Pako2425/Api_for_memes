@@ -12,16 +12,15 @@ import java.io.IOException;
 @AllArgsConstructor
 public class UploadMemeService {
     private final MemesRepository memesRepository;
-    private static final String FILE_SAVING_PATH = "/memes/";
+    private static final String DROPBOX_FILE_SAVING_PATH = "/memes/";
     private final DropboxCommunicationService dropboxCommunicationService;
 
     public Meme processUploadedMemeData(UploadedMemeDAO uploadedMemeDAO) throws IOException, DbxException {
-        System.out.println("in process method");
         Meme meme = new Meme();
         meme.setTitle(uploadedMemeDAO.getTitle());
-        String filePath = FILE_SAVING_PATH + meme.getTitle() + ".jpg";
+        //String filePath = FILE_SAVING_PATH + meme.getTitle() + ".jpg";
+        String filePath = dropboxCommunicationService.saveImage(uploadedMemeDAO.getImage(), DROPBOX_FILE_SAVING_PATH);
         meme.setFilePath(filePath);
-        dropboxCommunicationService.saveImage(uploadedMemeDAO.getImage(), filePath);
         memesRepository.save(meme);
         return meme;
     }

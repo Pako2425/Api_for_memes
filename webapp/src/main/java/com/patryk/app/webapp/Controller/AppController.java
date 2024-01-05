@@ -82,7 +82,7 @@ public class AppController {
 
     @GetMapping(value = "/token")
     public String generateToken() throws JsonProcessingException {
-        return dropboxCommunicationService.generateAccessToken();
+        return dropboxCommunicationService.generateNewAccessToken();
     }
 
     @GetMapping(value = "/random")
