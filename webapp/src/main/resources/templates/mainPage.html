@@ -1,37 +1,165 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.w3.org/1999/xhtml">
-<head></head>
+<head>
+    <title>MemesApp - strona główna</title>
+
+<style>
+  body {
+    background-color: rgb(200,200,200);
+  }
+
+  .page_content {
+    max-width: 800px;
+    margin: auto;
+  }
+
+  .title {
+    display: inline-block;
+  }
+
+  .title-text {
+    font-family: Arial;
+    font-size: 26px;
+    width: 720px;
+    margin-top: 18px;
+    margin-left: 10px;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+
+  .header {
+    background-color: rgb(0,160,0);
+    margin-bottom: 80px;
+  }
+
+  .header-text {
+    font-family: Arial;
+    font-size: 20px;
+    color: white;
+  }
+
+  .header-button {
+    display: inline-block;
+    width: 150px;
+    height: 100px;
+    background-color: rgb(0, 160, 0);
+    cursor: pointer;
+    border-color: rgb(0,160,0);
+    border-style: solid;
+    vertical-align: top;
+
+    transition: background-color 0.15s,
+      color 0.15s;
+  }
+
+  .header-button:hover {
+    background-color: rgb(0, 140, 0);
+  }
+
+  .header-button:active {
+    cursor: pointer;
+    border-color: rgb(0,0,0);
+    border-radius: 2px;
+  }
+
+  .pagination {
+    background-color: white;
+    width: 800px;
+    height: 200px;
+    text-align: center;
+    margin-bottom: none;
+    border-radius: 6px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+  }
+
+  .pagination-button-container {
+    list-style: none;
+    padding: 0;
+    display: inline-block;
+    margin: 0;
+    margin-top: 30px;
+  }
+
+  .pagination-button {
+    display: inline-block;
+    width: 50px;
+    height: 30px;
+    text-align: center;
+  }
+
+  .mem {
+    display: inline-block;
+    background-color: white;
+    width: 800px;
+    border-radius: 6px;
+    margin-bottom: 80px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+  }
+
+  .image {
+    width: 800px;
+    object-fit: contain;
+    display: inline-block;
+    margin-bottom: 50px;
+  }
+
+  .hidden-ref-link {
+    text-decoration: none;
+    color: inherit;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+   }
+</style>
+</head>
+
 <body>
-    <h1 style="background-color: rgb(196, 196, 196);">
-        <a href="/">Memy</a>
-        <a href="/random">Losuj</a>
-        <a href="/add_meme">Dodaj</a>
-        <a th:if="${isAuthenticated}" th:href="@{/logout}">Wyloguj się</a>
-        <a th:unless="${isAuthenticated}" th:href="@{/login}">Zaloguj się</a>
-    </h1>
+    <div class="page_content">
+        <div class="header">
+            <p class="header-buttons">
+                <a href="/"><button class="header-button"><span class="header-text">Memy</span></button></a>
+                <a href="/random"><button class="header-button"><span class="header-text">Losuj</span></button></a>
+                <a href="/add_meme"><button class="header-button"><span class="header-text">Dodaj</span></button></a>
+                <a th:if="${isAuthenticated}" th:href="@{/logout}"><button class="header-button"><span class="header-text">Wyloguj się</span></button></a>
+                <a th:unless="${isAuthenticated}" th:href="@{/login}"><button class="header-button"><span class="header-text">Zaloguj się</span></button></a>
+            </p>
+        </div>
 
-    <div th:each="meme : ${memes}">
-        <h1><span th:text="${meme.title}"></span></h1>
-        <!--<img th:src="'/' + ${meme.title} + '.jpg'">-->
-        <img th:src="${meme.filePath}">
+        <div class="mem" th:each="meme : ${memes}">
+            <div class="mem-tytul">
+                <p class="title-text">
+                    <span th:text="${meme.title}"></span>
+                </p>
+            </div>
+            <div class="mem-obrazek">
+                <img class="image" th:src="${meme.filePath}">
+            </div>
+        </div>
+
+        <div class="pagination">
+            <div class="pagination-button-container">
+                <a th:href="@{http://localhost:8080(page=0)}"><button class="pagination-button">|&lt</button></a>
+                <a th:if="${currentPage > 0}" th:href="@{http://localhost:8080(page=${currentPage - 1})}"><button class="pagination-button">&lt</button></a>
+                <a th:unless="${currentPage > 0}" th:href="@{http://localhost:8080(page=0)}"><button class="pagination-button">&lt</button></a>
+
+                <a th:each="pageNumber : ${#numbers.sequence(firstPage, lastPage)}" th:href="@{http://localhost:8080(page=${pageNumber})}" style="overflow: hidden; text-decoration: none;">
+                    <button class="pagination-button">
+                        <span th:if="${currentPage eq pageNumber}" style="color: white;">
+                            <span th:text="${pageNumber + 1}">
+
+                            </span>
+                        </span>
+                        <span th:unless="${currentPage eq pageNumber}">
+                            <span th:text="${pageNumber + 1}"></span>
+                        </span>
+                    </button>
+                </a>
+                <a th:if="${currentPage < totalPages - 1}" th:href="@{http://localhost:8080(page=${currentPage + 1})}"><button class="pagination-button">&gt</button></a>
+                <a th:unless="${currentPage < totalPages - 1}" th:href="@{http://localhost:8080(page=${totalPages - 1})}"><button class="pagination-button">&gt</button></a>
+                <a th:href="@{http://localhost:8080(page=${totalPages - 1})}"><button class="pagination-button">&gt|</button></a>
+            </div>
+        </div>
     </div>
-
-    <ul class="pagination">
-        <li th:if="${currentPage > 0}">
-            <a th:href="@{http://localhost:8080(page=0)}">Pierwsza</a>
-        </li>
-        <li th:if="${currentPage > 0}">
-            <a th:href="@{http://localhost:8080(page=${currentPage - 1})}">Poprzednia</a>
-        </li>
-        <li th:each="pageNumber : ${#numbers.sequence(firstPage, lastPage)}">
-            <a th:href="@{http://localhost:8080(page=${pageNumber})}" th:text="${pageNumber + 1}"></a>
-        </li>
-        <li th:if="${currentPage < totalPages - 1}">
-            <a th:href="@{http://localhost:8080(page=${currentPage + 1})}">Następna</a>
-        </li>
-        <li th:if="${currentPage < totalPages - 1}">
-            <a th:href="@{http://localhost:8080(page=${totalPages - 1})}">Ostatnia</a>
-        </li>
-    </ul>
 </body>
 </html>
