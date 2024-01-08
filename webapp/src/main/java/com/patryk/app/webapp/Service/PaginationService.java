@@ -46,5 +46,6 @@ public class PaginationService {
         long randomMemeId = ThreadLocalRandom.current().nextLong(totalElements);
         Page<Meme> randomMemePage = memesRepository.findAll(PageRequest.of(Long.valueOf(randomMemeId).intValue(), 1));
         model.addAttribute("randomMeme", randomMemePage.getContent());
+        System.out.println(model.getAttribute("randomMeme"));
     }
 }

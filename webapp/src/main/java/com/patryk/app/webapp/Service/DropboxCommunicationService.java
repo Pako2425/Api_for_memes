@@ -88,7 +88,6 @@ public class DropboxCommunicationService {
             String accessToken = jsonNode.get("access_token").asText();
             return accessToken;
         } else {
-            System.out.println("null");
             return null;
         }
     }
