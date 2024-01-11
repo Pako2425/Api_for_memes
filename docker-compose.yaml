@@ -1,6 +1,6 @@
 version: '3'
 services:
-  webapp:
+  app:
     build:
       context: .
       dockerfile: Dockerfile_webapp
@@ -10,7 +10,7 @@ services:
       - database
 
   database:
-    container_name: 'memes'
+    container_name: 'database'
     image: mysql:8.0.35
     environment:
       MYSQL_ROOT_PASSWORD: Jagusiek31
