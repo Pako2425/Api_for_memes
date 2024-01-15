@@ -2,11 +2,41 @@
 <head>
     <meta charset="UTF-8">
     <title>Registration Failed</title>
-</head>
-<body>
-<h2>Registration Failed!</h2><br>
-<h3>Email already in use.</h3><br>
-<label>Back to <a href="/register">registration </a> and try again.</label>
+    <style>
+        body {
+          background-color: rgb(0,220,0);
+        }
 
+        .page-content {
+            max-width: 800px;
+            height: 600px;
+            margin: auto;
+        }
+
+        .message {
+          display: inline-block;
+          width: 300px;
+          height: 350px;
+          border-radius: 5px;
+          position: absolute;
+          text-align: center;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background-color: white;
+          box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+         }
+
+    </style>
+</head>
+
+<body>
+<div class="page_content">
+    <div class="message" style="font-family: Arial;">
+        <p style="font-size: 18px;">Registration Failed!</p>
+        <p style="font-size: 15px;">Email already in use.</p>
+        <p style="font-size: 15px;">Back to <a href="/register">registration </a> and try again.</p>
+    </div>
+</div>
 </body>
 </html>

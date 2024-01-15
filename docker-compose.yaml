@@ -1,0 +1,19 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile_webapp
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+
+  database:
+    container_name: 'database'
+    image: mysql:8.0.35
+    environment:
+      MYSQL_ROOT_PASSWORD: Jagusiek31
+      MYSQL_DATABASE: memes
+    ports:
+      - "3306:3306"
