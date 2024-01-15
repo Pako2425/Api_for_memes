@@ -5,7 +5,6 @@ import com.patryk.app.webapp.Model.Meme;
 import com.patryk.app.webapp.Repository.MemesRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import java.io.File;
 import java.io.IOException;
 
 @Service
@@ -18,14 +17,9 @@ public class UploadMemeService {
     public Meme saveMeme(UploadedMemeDAO uploadedMemeDAO) throws IOException, DbxException {
         Meme meme = new Meme();
         meme.setTitle(uploadedMemeDAO.getTitle());
-        //String filePath = FILE_SAVING_PATH + meme.getTitle() + ".jpg";
         String filePath = dropboxCommunicationService.saveImage(uploadedMemeDAO.getImage(), DROPBOX_FILE_SAVING_PATH + meme.getTitle() + ".jpg");
         meme.setFilePath(filePath);
         memesRepository.save(meme);
         return meme;
-    }
-
-    public void postMeme(UploadedMemeDAO uploadedMemeDAO) throws IOException, DbxException {
-
     }
 }

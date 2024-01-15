@@ -11,21 +11,6 @@ CREATE TABLE users (
 );
 
 INSERT INTO users VALUES (33, 'patkoc11@interia.pl', 'Pako2425', '$2a$10$3/lvhHwYGHpE8FpDIKNgBefoXTAHoeJ8h0LlxFYH/P29iaUzvMv1S', NULL, NULL, 'ROLE_USER', 1, 0);
-INSERT INTO users VALUES (34, 'a@g.com', 'a', '$2a$10$NHpePvCUbS/.pzG.TWSDjua5jNSjW2YIioyM77lpzxpiK9qcbB3ta', NULL, NULL, 'ROLE_USER', 1, 0);
-INSERT INTO users VALUES (35, 'b@g.com', 'b', '$2a$10$zmlSYra1vZpfUjR8Ubkx.Op6bd0R8acNII4t3CfT2a19kcsrSje.S', NULL, NULL, 'ROLE_USER', 1, 0);
-INSERT INTO users VALUES (36, 'c@g.com', 'c', '$2a$10$DYLHyLOkzQzJWa8yn.txyODRqqLV7RXxjcdAKPF1aE3LI.uf9bncO', NULL, NULL, 'ROLE_USER', 1, 0);
-INSERT INTO users VALUES (37, 'Pako2425', 'a@g.com', '$2a$10$rH8SMbVjzp5MAiOJ6KWS..b5ggfSB.pa6OVsZM2OxYiVlJF.ij/eK', NULL, NULL, 'ROLE_USER', 1, 0);
-INSERT INTO users VALUES (38, 'd@g.com', 'd', '$2a$10$ggK0w0N3166u0oiAknMQ1edS/y91ey4fDMMv0jBlPcTAf9ZNTpwDa', NULL, NULL, 'ROLE_USER', 1, 0);
-INSERT INTO users VALUES (39, 'e@g.com', 'e', '$2a$10$.teSf1tUMmcH6eKNUdKVKekzGd.iFGaGi6cSRU/aFZNPnxPWAGvbK', NULL, NULL, 'ROLE_USER', 1, 0);
-INSERT INTO users VALUES (40, 'h@g.com', 'f', '$2a$10$2W/bKutR/duQaKQJ85Xxw.JagbWAtQAzWE2y3G21hLeWX89RvQVfq', NULL, NULL, 'ROLE_USER', 1, 0);
-INSERT INTO users VALUES (41, 'aa@g.com', 'aa', '$2a$10$wxht28GtR1ZhcDUHCW3qruNVq2vjIcXcpwNGVCqrbDpJaSsOg4ute', NULL, NULL, 'ROLE_USER', 1, 0);
-INSERT INTO users VALUES (42, 'bb@g.com', 'bb', '$2a$10$VHyVwlXWiGdqRf4/vB33K.BU5ZRP/oenHGKKiqcIU6RJNt2UObh.e', NULL, NULL, 'ROLE_USER', 1, 0);
-INSERT INTO users VALUES (43, 'cc@g.com', 'cc', '$2a$10$t870mfyc1Xzk1W.nA7NxU.LbGiJd0lEJUwOpluUDxXmsOVSNK8UgS', NULL, NULL, 'ROLE_USER', 1, 0);
-INSERT INTO users VALUES (44, 'dd@g.com', 'dd', '$2a$10$60x8MCkIZ4eT/t51Ms2k5.uJ1mz12EDNl9NEXlsZN4lSa.fge60Xu', NULL, NULL, 'ROLE_USER', 1, 0);
-INSERT INTO users VALUES (45, 'ee@g.com', 'ee', '$2a$10$eH0ozHJQ5yMJGsU4pMh.K.RBVFtV1hzOlxvIRmz3e2/zuCIOqqVr.', NULL, NULL, 'ROLE_USER', 1, 0);
-INSERT INTO users VALUES (46, 'ff@g.com', 'ff', '$2a$10$tWVtQ/L85sDjTl.LFwYzTOBz4jbcdNq/ixna8sEEv7NH8SYPwqkZu', NULL, NULL, 'ROLE_USER', 1, 0);
-INSERT INTO users VALUES (47, 'z@g.com', 'z', '$2a$10$Is8VzYKdbyd9.i.Lr1qKSehwnVl1HJzV1VGbG0yn31mRSrZCU69Da', NULL, NULL, 'ROLE_USER', 1, 0);
-INSERT INTO users VALUES (48, 'zz@g.com', 'zz', '$2a$10$IJF0bKa9uScscqXBaL6I6eaWn4y/iceim9cvynBNurzQsx5.mUexG', NULL, NULL, 'ROLE_USER', 1, 0);
 INSERT INTO users VALUES (49, 'admin@g.com', 'admin', '$2a$10$tXMTbxksxuLmHNoGfrk0eepBfNcPiJUoyx/SX86JKcM8CSMSVO9Cy', NULL, NULL, 'ROLE_ADMIN', 1, 0);
 
 CREATE TABLE memes (
@@ -48,14 +33,3 @@ INSERT INTO memes VALUES (7, 'https://www.dropbox.com/scl/fi/jxms97dowmoar2gke4t
 INSERT INTO memes VALUES (8, 'https://www.dropbox.com/scl/fi/w5735xmlph03d1idxxqmk/Supra-na-loterii.jpg?rlkey=h1hymrp4o06hfr91208hsarm4&dl=0&dl=1', 'Supra na loterii', NULL, 0, 0, 0);
 INSERT INTO memes VALUES (9, 'https://www.dropbox.com/scl/fi/0i9bzbz6kvwc5sgel7n35/Komplementy.jpg?rlkey=vzynj7tivvz4vjya2ay5i6wtg&dl=0&dl=1', 'Komplementy', NULL, 0, 0, 0);
 INSERT INTO memes VALUES (10, 'https://www.dropbox.com/scl/fi/4vmh7qe9bjyv9pykq5e5v/S-oiki.jpg?rlkey=symtxe81qnnaj317fokrs62m6&dl=0&dl=1', 'Słoiki', NULL, 0, 0, 0);
-
---INSERT INTO memes VALUES (16, 'D:/memes/abc.jpg', 'abc', NULL, 0, 0, 0);
---INSERT INTO memes VALUES (17, 'D:/memes/zzz.jpg', 'zzz', NULL, 0, 0, 0);
---INSERT INTO memes VALUES (18, 'D:/memes/rtuyinbv.jpg', 'rtuyinbv', NULL, 0, 0, 0);
---INSERT INTO memes VALUES (19, 'D:/memes/sfhjkuyyfgfg.jpg', 'sfhjkuyyfgfg', NULL, 0, 0, 0);
---INSERT INTO memes VALUES (20, 'D:/memes/lk,nmgngfhnhdfgh.jpg', 'lk,nmgngfhnhdfgh', NULL, 0, 0, 0);
---INSERT INTO memes VALUES (21, 'D:/memes/sdfgjm.jpg', 'sdfgjm', NULL, 0, 0, 0);
---INSERT INTO memes VALUES (23, 'D:/memes/Tytul.jpg', 'Tytul', NULL, 0, 0, 0);
---INSERT INTO memes VALUES (24, 'D:/memes/Podobna do ojca.jpg', 'Podobna do ojca', NULL, 0, 0, 0);
---INSERT INTO memes VALUES (25, 'D:/memes/Poczta.jpg', 'Poczta', NULL, 0, 0, 0);
---INSERT INTO memes VALUES (27, 'D:/memes/Porzadek.jpg', 'Porzadek', NULL, 0, 0, 0);
