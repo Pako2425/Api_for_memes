@@ -139,11 +139,11 @@
 
         <div class="pagination">
             <div class="pagination-button-container">
-                <a th:href="@{http://localhost:8080(page=0)}"><button class="pagination-button">|&lt</button></a>
-                <a th:if="${currentPage > 0}" th:href="@{http://localhost:8080(page=${currentPage - 1})}"><button class="pagination-button">&lt</button></a>
-                <a th:unless="${currentPage > 0}" th:href="@{http://localhost:8080(page=0)}"><button class="pagination-button">&lt</button></a>
+                <a th:href="@{/(page=0)}"><button class="pagination-button">|&lt</button></a>
+                <a th:if="${currentPage > 0}" th:href="@{/(page=${currentPage - 1})}"><button class="pagination-button">&lt</button></a>
+                <a th:unless="${currentPage > 0}" th:href="@{/(page=0)}"><button class="pagination-button">&lt</button></a>
 
-                <a th:each="pageNumber : ${#numbers.sequence(firstPage, lastPage)}" th:href="@{http://localhost:8080(page=${pageNumber})}" style="overflow: hidden; text-decoration: none;">
+                <a th:each="pageNumber : ${#numbers.sequence(firstPage, lastPage)}" th:href="@{/(page=${pageNumber})}" style="overflow: hidden; text-decoration: none;">
                     <button class="pagination-button">
                         <span th:if="${currentPage eq pageNumber}" style="color: white;">
                             <span th:text="${pageNumber + 1}">
@@ -155,9 +155,9 @@
                         </span>
                     </button>
                 </a>
-                <a th:if="${currentPage < totalPages - 1}" th:href="@{http://localhost:8080(page=${currentPage + 1})}"><button class="pagination-button">&gt</button></a>
-                <a th:unless="${currentPage < totalPages - 1}" th:href="@{http://localhost:8080(page=${totalPages - 1})}"><button class="pagination-button">&gt</button></a>
-                <a th:href="@{http://localhost:8080(page=${totalPages - 1})}"><button class="pagination-button">&gt|</button></a>
+                <a th:if="${currentPage < totalPages - 1}" th:href="@{/(page=${currentPage + 1})}"><button class="pagination-button">&gt</button></a>
+                <a th:unless="${currentPage < totalPages - 1}" th:href="@{/(page=${totalPages - 1})}"><button class="pagination-button">&gt</button></a>
+                <a th:href="@{/(page=${totalPages - 1})}"><button class="pagination-button">&gt|</button></a>
             </div>
         </div>
     </div>
