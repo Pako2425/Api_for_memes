@@ -145,7 +145,6 @@ public class AppController {
 
     @PostMapping(value = "/post_meme")
     public String uploadImage(@ModelAttribute UploadedMemeDAO uploadedMemeDAO)  throws IOException, DbxException {
-        System.out.println("upload meme service");
         uploadMemeService.saveMeme(uploadedMemeDAO);
         return "redirect:/";
     }
