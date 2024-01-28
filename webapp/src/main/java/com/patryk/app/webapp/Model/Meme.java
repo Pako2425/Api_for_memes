@@ -10,11 +10,12 @@ import lombok.*;
 public class Meme {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
     private String title;
-    private String username;
     private long userId;
-    private String filePath;
+    private long imageId;
     private boolean blocked;
     private int likesNumber;
+    private int commentsNumber;
 }
+
