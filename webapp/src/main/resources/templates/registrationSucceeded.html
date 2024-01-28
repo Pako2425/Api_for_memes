@@ -1,11 +1,42 @@
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
-    <title>Register succeeded!!!</title>
-</head>
-<body>
-    <h3>Register succeeded!!!</h3><br>
-    <label>Go on <a href="/">home page</a> and log in.</label>
+    <title>Registration Failed</title>
+    <style>
+        body {
+            background-color: rgb(0,220,0);
+        }
 
+        .page-content {
+            max-width: 800px;
+            height: 600px;
+            margin: auto;
+        }
+
+        .message {
+            display: inline-block;
+            width: 300px;
+            height: 350px;
+            border-radius: 5px;
+            position: absolute;
+            text-align: center;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="page_content">
+        <div class="message" style="font-family: Arial;">
+            <p style="font-size: 18px;">Register succeeded!!!</p>
+            <p style="font-size: 15px;">User name already in use.</p>
+            <p style="font-size: 15px;">Go on <a href="/">home page</a> and log in.</p>
+        </div>
+    </div>
 </body>
 </html>

@@ -46,19 +46,14 @@ public class PaginationService {
         Page<Meme> memesPage = memesRepository.findAll(PageRequest.of(pageIndex, MAIN_PAGE_SIZE, Sort.Direction.DESC, "id"));
         List<Meme> memes = memesPage.getContent();
 
-        PostDAO postDAO = new PostDAO(memes.get(0), usersRepository, imagesRepository, commentsRepository);
-
         List<PostDAO> posts = memes.stream()
                 .map(meme -> new PostDAO(meme, usersRepository, imagesRepository, commentsRepository))
                 .toList();
 
-        //model.addAttribute("memes", memes);
         model.addAttribute("posts", posts);
         int totalPages = memesPage.getTotalPages();
 
         pagePagination(MAX_MAIN_PAGE_LINKS, totalPages, pageIndex, model);
-
-        //+likes_number +comments_number
     }
 
     public void showRandomPage(Model model) {

@@ -24,8 +24,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @AllArgsConstructor
 
 class ApplicationTests {
+<<<<<<< HEAD
 
 	@Mock
+=======
+	/*
+>>>>>>> main
 	private UsersRepository usersRepository;
 
 	@Mock
@@ -63,4 +67,6 @@ class ApplicationTests {
 		Assertions.assertNotNull(postDAO);
 
 	}
+
+	 */
 }

@@ -1,5 +1,5 @@
 CREATE TABLE users (
-  id BIGINT(20) PRIMARY KEY,
+  id BIGINT(20) AUTO_INCREMENT PRIMARY KEY,
   email VARCHAR(255),
   name VARCHAR(255),
   password VARCHAR(255),
@@ -9,6 +9,7 @@ CREATE TABLE users (
   enabled BIT(1),
   locked BIT(1)
 );
+<<<<<<< HEAD
 INSERT INTO users VALUES (33, 'patkoc11@interia.pl', 'Pako2425', '$2a$10$3/lvhHwYGHpE8FpDIKNgBefoXTAHoeJ8h0LlxFYH/P29iaUzvMv1S', 0, 0, 'ROLE_USER', 1, 0);
 INSERT INTO users VALUES (49, 'admin@g.com', 'admin', '$2a$10$tXMTbxksxuLmHNoGfrk0eepBfNcPiJUoyx/SX86JKcM8CSMSVO9Cy', 0, 0, 'ROLE_ADMIN', 1, 0);
 
@@ -57,5 +58,4 @@ CREATE TABLE comments (
   parent_comment_id BIGINT(20)
 );
 INSERT INTO comments VALUES (1, 16, 33, "Pierwszy!!! XDDD", 0);
-
 

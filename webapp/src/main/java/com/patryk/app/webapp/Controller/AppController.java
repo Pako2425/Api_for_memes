@@ -1,5 +1,7 @@
 package com.patryk.app.webapp.Controller;
 
+import com.dropbox.core.DbxException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.patryk.app.webapp.Service.RegistrationDAO;
 import com.patryk.app.webapp.Service.RegistrationService;
 import com.patryk.app.webapp.Service.*;
@@ -21,6 +23,8 @@ public class AppController {
     private final UploadMemeService uploadMemeService;
     private final AdminPanelService adminPanelService;
     private final SecurityService securityService;
+
+    private final DropboxCommunicationService dropboxCommunicationService;
 
     private static final String MAIN_PAGE = "mainPage";
     private static final String RANDOM_PAGE = "randomPage";
@@ -70,6 +74,11 @@ public class AppController {
         securityService.authenticate(authentication, model);
         paginationService.showMainPage(page, model);
         return MAIN_PAGE;
+    }
+
+    @GetMapping(value = "/token")
+    public String generateToken() throws JsonProcessingException {
+        return dropboxCommunicationService.generateNewAccessToken();
     }
 
     @GetMapping(value = "/random")
@@ -135,8 +144,8 @@ public class AppController {
     }
 
     @PostMapping(value = "/post_meme")
-    public String uploadImage(@ModelAttribute UploadedMemeDAO uploadedMemeDAO)  throws IOException {
-        uploadMemeService.postMeme(uploadedMemeDAO);
+    public String uploadImage(@ModelAttribute UploadedMemeDAO uploadedMemeDAO)  throws IOException, DbxException {
+        uploadMemeService.saveMeme(uploadedMemeDAO);
         return "redirect:/";
     }
 }

@@ -1,26 +1,85 @@
 <!DOCTYPE html>
-<html>
-<head></head>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Registration</title>
+    <style>
+        body {
+            background-color: rgb(0,220,0);
+        }
+
+        .page-content {
+            max-width: 800px;
+            height: 600px;
+            margin: auto;
+        }
+
+        .register-form {
+            display: inline-block;
+            width: 300px;
+            height: 450px;
+            border-radius: 5px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+        }
+
+        .register-form-content {
+            font-family: Arial;
+            font-size: 17px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+      .register-button {
+        margin-bottom: 4px;
+        height: 20px;
+        background-color: rgb(128,217,255);
+        border-radius: 2px;
+      }
+
+      .register-button:hover {
+        cursor: pointer;
+        background-color: rgb(100,170,230);
+      }
+
+      .register-button:active {
+        cursor: pointer;
+        background-color: rgb(80,190,200);
+        border-color: rgb(128,217,255);
+
+      }
+
+    </style>
+</head>
 
 <body>
-    <form action="#" th:action="@{/process_register}" method="post">
-        <label for="email">Email:</label><br>
-        <input type="text" placeholder="Enter email" name="email" id="email"><br>
+<div class="page_content">
+    <form class="register-form" action="#" th:action="@{/process_register}" method="post">
+        <div class="register-form-content">
+            <p style="margin-bottom: 4px; height: 20px;">Email:</p>
+            <input style="height: 25;" type="text" placeholder="Enter email" name="email" id="email"><br>
 
-        <label for="name">Name:</label><br>
-        <input type="text" placeholder="Enter name" name="name" id="name"><br>
+            <p style="margin-bottom: 4px; margin-top: 8px; height: 20px;">Name:</p>
+            <input style="height: 25;" type="text" placeholder="Enter name" name="name" id="name"><br>
 
-        <label for="password">Password:</label><br>
-        <input type="text" placeholder="Enter password" name="password" id="password"><br>
+            <p style="margin-bottom: 4px; margin-top: 8px; height: 20px;">Password:</p>
+            <input style="height: 25;" type="text" placeholder="Enter password" name="password" id="password"><br>
 
-        <label for="repeatPassword">Repeat Password:</label><br>
-        <input type="text" placeholder="Repeat password" name="repeatedPassword" id="repeatedPassword"><br>
+            <p style="margin-bottom: 4px; margin-top: 8px; height: 20px;">Repeat Password:</p>
+            <input style="height: 25; margin-bottom: 8px;" type="text" placeholder="Repeat password" name="repeatedPassword" id="repeatedPassword"><br>
 
-        I have read and accept <a href="/terms_and_conditions" target="_blank">Terms & Conditions</a><br>
+            <p style="font-size: 12px">I have read and accept <a href="/terms_and_conditions" target="_blank">Terms & Conditions</a></p>
 
-        <input type="submit" value="              Register              "><br>
+            <input class="register-button" type="submit" value="              Register              "><br>
 
-        <label>Already have and account? <a href="sign_in">Sign in</a></label>
+            <p style="font-size: 14px; margin-top: 10px">Already have and account? <a href="/login">Sign in</a></p>
+        </div>
     </form>
+</div>
 </body>
 </html>
