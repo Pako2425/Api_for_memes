@@ -13,6 +13,16 @@ public class UploadMemeService {
     private final MemesRepository memesRepository;
     private static final String FILE_SAVING_PATH = "D:/memes/";
 
+    //public Meme processUploadedMemeData(UploadedMemeDAO uploadedMemeDAO) throws IOException  {
+    //    Meme meme = new Meme();
+    //    meme.setTitle(uploadedMemeDAO.getTitle());
+    //    String filePath = FILE_SAVING_PATH + meme.getTitle() + ".jpg";
+    //    meme.setFilePath(filePath);
+    //    uploadedMemeDAO.getImage().transferTo(new File(filePath));
+    //
+    //    return meme;
+    //}
+
     public Meme processUploadedMemeData(UploadedMemeDAO uploadedMemeDAO) throws IOException  {
         Meme meme = new Meme();
         meme.setTitle(uploadedMemeDAO.getTitle());
