@@ -37,7 +37,7 @@ public class AdminPanelService {
 
     public void updateUserStatus(long userId, boolean unlock, Model model) {
         User userToUpdate = usersRepository.getReferenceById(userId);
-        userToUpdate.setLocked(!unlock);
+        userToUpdate.setBlocked(!unlock);
         User updatedUser = usersRepository.save(userToUpdate);
         model.addAttribute("user", updatedUser);
     }

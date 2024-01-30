@@ -126,14 +126,14 @@
             </p>
         </div>
 
-        <div class="mem" th:each="meme : ${memes}">
+        <div class="mem" th:each="post : ${posts}">
             <div class="mem-tytul">
                 <p class="title-text">
-                    <span th:text="${meme.title}"></span>
+                    <span th:text="${post.title}"></span>
                 </p>
             </div>
             <div class="mem-obrazek">
-                <img class="image" th:src="${meme.filePath}">
+                <img class="image" th:src="${post.imagePath}">
             </div>
         </div>
 
