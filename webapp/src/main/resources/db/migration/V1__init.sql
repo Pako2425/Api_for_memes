@@ -1,5 +1,5 @@
 CREATE TABLE users (
-  id BIGINT(20) AUTO_INCREMENT PRIMARY KEY,
+ id BIGINT(20) PRIMARY KEY,
   email VARCHAR(255),
   name VARCHAR(255),
   password VARCHAR(255),
@@ -9,7 +9,6 @@ CREATE TABLE users (
   enabled BIT(1),
   locked BIT(1)
 );
-<<<<<<< HEAD
 INSERT INTO users VALUES (33, 'patkoc11@interia.pl', 'Pako2425', '$2a$10$3/lvhHwYGHpE8FpDIKNgBefoXTAHoeJ8h0LlxFYH/P29iaUzvMv1S', 0, 0, 'ROLE_USER', 1, 0);
 INSERT INTO users VALUES (49, 'admin@g.com', 'admin', '$2a$10$tXMTbxksxuLmHNoGfrk0eepBfNcPiJUoyx/SX86JKcM8CSMSVO9Cy', 0, 0, 'ROLE_ADMIN', 1, 0);
 
@@ -22,16 +21,16 @@ CREATE TABLE memes (
   likes_number INT(11),
   comments_number INT(11)
 );
-INSERT INTO memes VALUES (1, 'ofensywa', 0, 0, 0, 0);
-INSERT INTO memes VALUES (2, 'poczta', 0, 0, 0), 0;
-INSERT INTO memes VALUES (3, 'podobna do ojca', 0, 0, 0, 0);
-INSERT INTO memes VALUES (4, 'Porządek, kubek z kawą', 0, 0, 0, 0);
-INSERT INTO memes VALUES (5, 'Dzwon na skrzyżowaniu', 0, 0, 0, 0);
-INSERT INTO memes VALUES (6, 'Wyjątkowa noc', 0, 0, 0, 0);
-INSERT INTO memes VALUES (7, 'Silniki jdm', 0, 0, 0, 0);
-INSERT INTO memes VALUES (8, 'Supra na loterii', 0, 0, 0, 0);
-INSERT INTO memes VALUES (9, 'Komplementy', 0, 0, 0, 0);
-INSERT INTO memes VALUES (10, 'Słoiki', 0, 0, 0, 0);
+INSERT INTO memes VALUES (1, 'ofensywa', 33, 1, 0, 999, 54);
+INSERT INTO memes VALUES (2, 'poczta', 33, 2, 0, 999, 54);
+INSERT INTO memes VALUES (3, 'podobna do ojca', 33, 3, 0, 999, 54);
+INSERT INTO memes VALUES (4, 'Porządek, kubek z kawą', 33, 4, 0, 999, 54);
+INSERT INTO memes VALUES (5, 'Dzwon na skrzyżowaniu', 33, 5, 0, 999, 54);
+INSERT INTO memes VALUES (6, 'Wyjątkowa noc', 33, 6, 0, 999, 54);
+INSERT INTO memes VALUES (7, 'Silniki jdm', 33, 7, 0, 999, 54);
+INSERT INTO memes VALUES (8, 'Supra na loterii', 33, 8, 0, 999, 54);
+INSERT INTO memes VALUES (9, 'Komplementy', 33, 9, 0, 999, 54);
+INSERT INTO memes VALUES (10, 'Słoiki', 33, 10, 0, 999, 54);
 
 CREATE TABLE images (
   id BIGINT(20) PRIMARY KEY,
@@ -58,4 +57,3 @@ CREATE TABLE comments (
   parent_comment_id BIGINT(20)
 );
 INSERT INTO comments VALUES (1, 16, 33, "Pierwszy!!! XDDD", 0);
-

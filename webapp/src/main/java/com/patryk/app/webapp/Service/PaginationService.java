@@ -45,14 +45,13 @@ public class PaginationService {
     public void showMainPage(int pageIndex, Model model) {
         Page<Meme> memesPage = memesRepository.findAll(PageRequest.of(pageIndex, MAIN_PAGE_SIZE, Sort.Direction.DESC, "id"));
         List<Meme> memes = memesPage.getContent();
-
         List<PostDAO> posts = memes.stream()
                 .map(meme -> new PostDAO(meme, usersRepository, imagesRepository, commentsRepository))
                 .toList();
 
+        posts.forEach(System.out::println);
         model.addAttribute("posts", posts);
         int totalPages = memesPage.getTotalPages();
-
         pagePagination(MAX_MAIN_PAGE_LINKS, totalPages, pageIndex, model);
     }
 

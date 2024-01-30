@@ -5,15 +5,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @Entity
 @Table(name="comments")
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long comment_id;
-    private Long meme_id;
-    private Long user_id;
+    private long id;
+    private long memeId;
+    private long userId;
     private String content;
-    private Long parent_comment_id;
+    private long parentCommentId;
+
+    public Comment(long memeId, long userId, String content, long parentCommentId) {
+        this.memeId = memeId;
+        this.userId = userId;
+        this.content = content;
+        this.parentCommentId = parentCommentId;
+    }
 }
