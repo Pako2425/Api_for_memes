@@ -213,7 +213,6 @@
             </p>
         </div>
 
-        <!--<div class="mem" th:each="post : ${posts}">-->
         <div th:each="post : ${posts}">
             <div class="mem">
                 <div class="user-profile" style="margin-left: 10px; margin-top: 10px;">
@@ -242,7 +241,7 @@
             <div class="ui-actions">
                 <div class="ui-actions-container">
                     <button class="favorite-button"><img style="vertical-align: middle;" src="/static/favorite_outline.svg"><span style="vertical-align: middle;">54</span></button>
-                    <button class="comments-button"><img style="vertical-align: middle;" src="/static/comment.svg"><span style="vertical-align: middle;">12</span></button>
+                    <a th:href="@{'/meme/' + ${post.memeId}}"><button class="comments-button"><img style="vertical-align: middle;" src="/static/comment.svg"><span style="vertical-align: middle;">12</span></button></a>
                     <button class="download-button"><img style="vertical-align: middle;" src="/static/download.svg"></button>
                 </div>
             </div>

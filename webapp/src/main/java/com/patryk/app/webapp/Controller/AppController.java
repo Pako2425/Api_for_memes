@@ -117,6 +117,12 @@ public class AppController {
         return ADMIN_PANEL_PAGE;
     }
 
+    @GetMapping(value = "/meme/{meme_id}")
+    public String showMeme(@PathVariable long meme_id, Model model) {
+        paginationService.showDetailedPost(meme_id, model);
+        return "detailedMeme";
+    }
+
     @PostMapping(value = "/admin_users_status_update")
     public String handleAdminUsersActions(@RequestParam("id") long userId,
                                      @RequestParam("unlock") boolean unlock,
@@ -148,4 +154,7 @@ public class AppController {
         uploadMemeService.saveMeme(uploadedMemeDAO);
         return "redirect:/";
     }
+
+    //@PostMapping(value="/meme/{meme_id}")
+    //public String showMeme()
 }

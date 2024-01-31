@@ -17,6 +17,7 @@ import java.util.List;
 @Setter
 @Getter
 public class PostDAO {
+    private long memeId;
     private String username;
     private String title;
     private String imagePath;
@@ -25,6 +26,7 @@ public class PostDAO {
     private List<Comment> comments;
 
     public PostDAO(Meme meme, UsersRepository usersRepository, ImagesRepository imagesRepository, CommentsRepository commentsRepository) {
+        this.memeId = meme.getId();
         User user = usersRepository.getReferenceById(meme.getUserId());
         this.username = user.getUsername();
         this.title = meme.getTitle();
