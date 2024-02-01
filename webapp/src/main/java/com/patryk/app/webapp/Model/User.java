@@ -17,7 +17,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     private String name;
 
@@ -32,7 +32,7 @@ public class User implements UserDetails {
 
     private Boolean enabled = true;
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 

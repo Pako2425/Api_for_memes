@@ -4,10 +4,7 @@ import com.patryk.app.webapp.Model.Comment;
 import com.patryk.app.webapp.Model.Image;
 import com.patryk.app.webapp.Model.Meme;
 import com.patryk.app.webapp.Model.User;
-import com.patryk.app.webapp.Repository.CommentsRepository;
-import com.patryk.app.webapp.Repository.ImagesRepository;
-import com.patryk.app.webapp.Repository.MemesRepository;
-import com.patryk.app.webapp.Repository.UsersRepository;
+import com.patryk.app.webapp.Repository.*;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.domain.Page;
@@ -27,6 +24,7 @@ public class PaginationService {
     private final UsersRepository usersRepository;
     private final CommentsRepository commentsRepository;
     private final ImagesRepository imagesRepository;
+    private final LikesRepository likesRepository;
 
     private static final int MAIN_PAGE_SIZE = 2;
     private static final int MAX_MAIN_PAGE_LINKS = 5;
@@ -46,7 +44,7 @@ public class PaginationService {
         Page<Meme> memesPage = memesRepository.findAll(PageRequest.of(pageIndex, MAIN_PAGE_SIZE, Sort.Direction.DESC, "id"));
         List<Meme> memes = memesPage.getContent();
         List<PostDAO> posts = memes.stream()
-                .map(meme -> new PostDAO(meme, usersRepository, imagesRepository, commentsRepository))
+                .map(meme -> new PostDAO(meme, usersRepository, imagesRepository, commentsRepository, likesRepository))
                 .toList();
 
         model.addAttribute("posts", posts);
@@ -63,7 +61,7 @@ public class PaginationService {
 
     public void showDetailedPost(long memeId, Model model) {
         Meme meme = memesRepository.getReferenceById(memeId);
-        PostDAO post = new PostDAO(meme, usersRepository, imagesRepository, commentsRepository);
+        PostDAO post = new PostDAO(meme, usersRepository, imagesRepository, commentsRepository, likesRepository);
         model.addAttribute("post", post);
     }
 }

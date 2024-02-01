@@ -4,10 +4,7 @@ import com.patryk.app.webapp.Model.Comment;
 import com.patryk.app.webapp.Model.Image;
 import com.patryk.app.webapp.Model.Meme;
 import com.patryk.app.webapp.Model.User;
-import com.patryk.app.webapp.Repository.CommentsRepository;
-import com.patryk.app.webapp.Repository.ImagesRepository;
-import com.patryk.app.webapp.Repository.MemesRepository;
-import com.patryk.app.webapp.Repository.UsersRepository;
+import com.patryk.app.webapp.Repository.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,8 +21,9 @@ public class PostDAO {
     private int likesNumber;
     private int commentsNumber;
     private List<Comment> comments;
+    private boolean isLiked;
 
-    public PostDAO(Meme meme, UsersRepository usersRepository, ImagesRepository imagesRepository, CommentsRepository commentsRepository) {
+    public PostDAO(Meme meme, UsersRepository usersRepository, ImagesRepository imagesRepository, CommentsRepository commentsRepository, LikesRepository likesRepository) {
         this.memeId = meme.getId();
         User user = usersRepository.getReferenceById(meme.getUserId());
         this.username = user.getUsername();
@@ -35,5 +33,6 @@ public class PostDAO {
         this.likesNumber = meme.getLikesNumber();
         this.commentsNumber = meme.getCommentsNumber();
         this.comments = commentsRepository.findAllByMemeId(meme.getId());
+        this.isLiked = likesRepository.findByMemeIdAndUserId(memeId, user.getId()).isPresent();
     }
 }

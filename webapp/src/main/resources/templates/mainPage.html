@@ -110,6 +110,7 @@
     object-fit: contain;
     display: inline-block;
     margin-bottom: 50px;
+    cursor: pointer;
   }
 
   .hidden-ref-link {
@@ -150,6 +151,7 @@
     .favorite-button:hover {
       background-color: rgb(234, 234, 234);
       border-color: rgb(234,234,234);
+      cursor: pointer;
     }
 
     .favorite-button:active {
@@ -169,6 +171,7 @@
     .comments-button:hover {
       background-color: rgb(234, 234, 234);
       border-color: rgb(234,234,234);
+      cursor: pointer;
     }
 
     .download-button {
@@ -184,6 +187,7 @@
     .download-button:hover {
       background-color: rgb(234, 234, 234);
       border-color: rgb(234,234,234);
+      cursor: pointer;
     }
 
     .user-profile-button {
@@ -196,6 +200,7 @@
     .user-profile-button:hover {
       background-color: rgb(234, 234, 234);
       border-color: rgb(234,234,234);
+      cursor: pointer;
     }
 
 </style>
@@ -225,23 +230,14 @@
                     <p class="title-text"><span th:text="${post.title}"></span></p>
                 </div>
                 <div class="mem-obrazek">
-                    <img class="image" th:src="${post.imagePath}">
+                    <a th:href="@{'/meme/' + ${post.memeId}}"><img class="image" th:src="${post.imagePath}"></a>
                 </div>
-
-                <!--<div>
-                    <span th:text="${post.likesNumber}"></span>
-                    <span th:text="${post.commentsNumber}"></span>
-                </div>-->
-                <!--
-                <div th:each="comment : ${post.comments}">
-                    <p><span th:text="${comment.content}"></span></p>
-                </div>
-                -->
             </div>
             <div class="ui-actions">
                 <div class="ui-actions-container">
-                    <button class="favorite-button"><img style="vertical-align: middle;" src="/static/favorite_outline.svg"><span style="vertical-align: middle;">54</span></button>
-                    <a th:href="@{'/meme/' + ${post.memeId}}"><button class="comments-button"><img style="vertical-align: middle;" src="/static/comment.svg"><span style="vertical-align: middle;">12</span></button></a>
+                    <span th:if="${post.isLiked}"><button class="favorite-button"><img style="vertical-align: middle;" src="/static/favorite_fill.svg"><span style="vertical-align: middle;" th:text="${post.likesNumber}"></span></button></span>
+                    <span th:unless="${post.isLiked}"><button class="favorite-button"><img style="vertical-align: middle;" src="/static/favorite_outline.svg"><span style="vertical-align: middle;" th:text="${post.likesNumber}"></span></button></span>
+                    <a th:href="@{'/meme/' + ${post.memeId}}"><button class="comments-button"><img style="vertical-align: middle;" src="/static/comment.svg"><span style="vertical-align: middle;" th:text="${post.commentsNumber}">12</span></button></a>
                     <button class="download-button"><img style="vertical-align: middle;" src="/static/download.svg"></button>
                 </div>
             </div>
