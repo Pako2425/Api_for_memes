@@ -235,10 +235,19 @@
             </div>
             <div class="ui-actions">
                 <div class="ui-actions-container">
-                    <span th:if="${post.isLiked}"><button class="favorite-button"><img style="vertical-align: middle;" src="/static/favorite_fill.svg"><span style="vertical-align: middle;" th:text="${post.likesNumber}"></span></button></span>
-                    <span th:unless="${post.isLiked}"><button class="favorite-button"><img style="vertical-align: middle;" src="/static/favorite_outline.svg"><span style="vertical-align: middle;" th:text="${post.likesNumber}"></span></button></span>
+                    <a th:if="${post.isLiked}" th:href="@{'/meme/' + ${post.memeId}}"><button class="favorite-button"><img style="vertical-align: middle;" src="/static/favorite_fill.svg"><span style="vertical-align: middle;" th:text="${post.likesNumber}"></span></button></a>
+                    <a th:unless="${post.isLiked}" th:href="@{'/meme/' + ${post.memeId}}"><button class="favorite-button"><img style="vertical-align: middle;" src="/static/favorite_outline.svg"><span style="vertical-align: middle;" th:text="${post.likesNumber}"></span></button></a>
                     <a th:href="@{'/meme/' + ${post.memeId}}"><button class="comments-button"><img style="vertical-align: middle;" src="/static/comment.svg"><span style="vertical-align: middle;" th:text="${post.commentsNumber}">12</span></button></a>
                     <button class="download-button"><img style="vertical-align: middle;" src="/static/download.svg"></button>
+
+                    <!--
+                    <a th:if="${post.isLiked}" th:href="@{'/' + ${post.memeId} + '/' + ${userId}}">
+                        <button class="favorite-button"><img style="vertical-align: middle;" src="/static/favorite_fill.svg"><span style="vertical-align: middle;" th:text="${post.likesNumber}"></span></button></a>
+                    <a th:unless="${post.isLiked}" th:href="@{'/' + ${post.memeId} + '/' + ${userId}}"><button class="favorite-button">
+                        <img style="vertical-align: middle;" src="/static/favorite_outline.svg"><span style="vertical-align: middle;" th:text="${post.likesNumber}"></span></button></a>
+                    <a th:href="@{'/meme/' + ${post.memeId}}"><button class="comments-button"><img style="vertical-align: middle;" src="/static/comment.svg"><span style="vertical-align: middle;" th:text="${post.commentsNumber}">12</span></button></a>
+                    <button class="download-button"><img style="vertical-align: middle;" src="/static/download.svg"></button>
+                    -->
                 </div>
             </div>
         </div>

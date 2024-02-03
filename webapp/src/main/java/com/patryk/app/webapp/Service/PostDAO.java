@@ -15,6 +15,7 @@ import java.util.List;
 @Getter
 public class PostDAO {
     private long memeId;
+    private long userId;
     private String username;
     private String title;
     private String imagePath;
@@ -26,6 +27,7 @@ public class PostDAO {
     public PostDAO(Meme meme, UsersRepository usersRepository, ImagesRepository imagesRepository, CommentsRepository commentsRepository, LikesRepository likesRepository) {
         this.memeId = meme.getId();
         User user = usersRepository.getReferenceById(meme.getUserId());
+        this.userId = user.getId();
         this.username = user.getUsername();
         this.title = meme.getTitle();
         Image image = imagesRepository.getReferenceById(meme.getImageId());
@@ -33,6 +35,6 @@ public class PostDAO {
         this.likesNumber = meme.getLikesNumber();
         this.commentsNumber = meme.getCommentsNumber();
         this.comments = commentsRepository.findAllByMemeId(meme.getId());
-        this.isLiked = likesRepository.findByMemeIdAndUserId(memeId, user.getId()).isPresent();
+        this.isLiked = likesRepository.findByMemeIdAndUserId(memeId, userId).isPresent();
     }
 }

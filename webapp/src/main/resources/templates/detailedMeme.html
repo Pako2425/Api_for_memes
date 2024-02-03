@@ -266,9 +266,60 @@
             </div>
             <div class="ui-actions">
                 <div class="ui-actions-container">
-                    <button class="favorite-button"><img style="vertical-align: middle;" src="/static/favorite_outline.svg"><span style="vertical-align: middle;">54</span></button>
+
+                    <span th:if="${isAuthenticated}">
+                        <!--
+                        <span th:if="${post.isLiked}">
+                            <img style="vertical-align: middle;" src="/static/favorite_fill.svg">
+                        </span>
+                        <span th:unless="${post.isLiked}">
+                            <img style="vertical-align: middle;" src="/static/favorite_outline.svg">
+                        </span>
+
+                        <span style="vertical-align: middle;" th:text="${post.likesNumber}"></span>
+                        -->
+
+                        <form  style="display: inline-block;" th:action=@{/ui_actions_favorite} method="post">
+                            <input type="hidden" id="memeId" name="memeId" th:value="${post.memeId}">
+                            <input type="hidden" id="userId" name="userId" th:value="${userId}">
+                            <input type="hidden" id="url" name="url" th:value="'/meme/' + ${post.memeId}">
+                            <button class="favorite-button">
+                                <span th:if="${post.isLiked}">
+                                    <img style="vertical-align: middle;" src="/static/favorite_fill.svg">
+                                </span>
+                                <span th:unless="${post.isLiked}">
+                                    <img style="vertical-align: middle;" src="/static/favorite_outline.svg">
+                                </span>
+                                <span style="vertical-align: middle;" th:text="${post.likesNumber}"></span>
+                            </button>
+                        </form>
+
+                        <!--
+                        <a th:if="${post.isLiked}" th:href="@{'/' + ${post.memeId} + '/' + ${userId}}">
+                            <button class="favorite-button">
+                                <img style="vertical-align: middle;" src="/static/favorite_fill.svg">
+                                <span style="vertical-align: middle;" th:text="${post.likesNumber}"></span>
+                            </button>
+                        </a>
+
+
+                        <a th:unless="${post.isLiked}" th:href="@{'/' + ${post.memeId} + '/' + ${userId}}">
+                            <button class="favorite-button">
+                                <img style="vertical-align: middle;" src="/static/favorite_outline.svg">
+                                <span style="vertical-align: middle;" th:text="${post.likesNumber}"></span>
+                            </button>
+                        </a>
+                        -->
+
+                    </span>
+
+                    <span th:unless="${isAuthenticated}">
+                        <a th:href="@{'/login'}">
+                            <button class="favorite-button"><img style="vertical-align: middle;" src="/static/favorite_outline.svg"><span style="vertical-align: middle;" th:text="${post.likesNumber}"></span></button></a>
+                    </span>
                     <img style="vertical-align: middle;" src="/static/comment.svg"><span style="vertical-align: middle;">12</span>
-                    <button class="download-button"><img style="vertical-align: middle;" src="/static/download.svg"></button>
+                    <a  th:href="@{${post.imagePath}}"><button class="download-button"><img style="vertical-align: middle;" src="/static/download.svg"></button>
+                    </a>
                 </div>
             </div>
 
