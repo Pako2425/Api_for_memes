@@ -3,7 +3,6 @@ package com.patryk.app.webapp.Model;
 import jakarta.persistence.*;
 import lombok.*;
 
-
 @Data
 @Entity
 @NoArgsConstructor
@@ -11,11 +10,11 @@ import lombok.*;
 public class Like {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private long memeId;
-    private long userId;
+    private Long id;
+    private Long memeId;
+    private Long userId;
 
-    public Like(long memeId, long userId) {
+    public Like(Long memeId, Long userId) {
         this.memeId = memeId;
         this.userId = userId;
     }

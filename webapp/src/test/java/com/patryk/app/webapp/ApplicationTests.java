@@ -78,7 +78,7 @@ class ApplicationTests {
 		List<Comment> comments = Arrays.asList(new Comment(memeId, userIdFirstComment, "pierwszy", 0L), new Comment(memeId,userIdSecondComment, "Funny!", 0));
 		Mockito.when(commentsRepositoryMock.findAllByMemeId(memeId)).thenReturn(comments);
 
-		Mockito.when(likesRepositoryMock.findByMemeId(memeId)).thenReturn(Optional.of(new Like(memeId, userId)));
+		Mockito.when(likesRepositoryMock.findByMemeIdAndUserId(memeId, userId)).thenReturn(Optional.of(new Like(memeId, userId)));
 		// Tworzenie obiektu PostDAO
 		PostDAO postDAO = new PostDAO(meme, usersRepositoryMock, imagesRepositoryMock, commentsRepositoryMock, likesRepositoryMock);
 

@@ -168,15 +168,32 @@ public class AppController {
     public String handleUiFavoriteActions(@ModelAttribute UiFavoriteActionDAO uiFavoriteActionDAO) {
         long memeId = uiFavoriteActionDAO.getMemeId();
         long userId = uiFavoriteActionDAO.getUserId();
+
+        System.out.println(memeId + " : " + userId);
+
         Optional<Like> like = likesRepository.findByMemeIdAndUserId(memeId, userId);
+
+        System.out.println(like.isPresent());
+
         if(like.isEmpty()) {
-            likesRepository.save(new Like(memeId, userId));
+            System.out.println("Try to create new like object");
+            Like newLike = new Like(memeId, userId);
+            System.out.println("Created?");
+            //likesRepository.save(new Like(memeId, userId));
+            likesRepository.save(newLike);
+            System.out.println("Like is empty, save new like");
             Meme meme = memesRepository.getReferenceById(memeId);
             meme.setLikesNumber(meme.getLikesNumber() + 1);
-
+            memesRepository.save(meme);
+            System.out.println("Add like number");
         }
         else {
             likesRepository.deleteById(like.get().getId());
+            System.out.println("Like is present, delete like");
+            Meme meme = memesRepository.getReferenceById(memeId);
+            meme.setLikesNumber(meme.getLikesNumber() - 1);
+            memesRepository.save(meme);
+            System.out.println("Minus like number");
         }
         return "redirect:" + uiFavoriteActionDAO.getUrl();
     }

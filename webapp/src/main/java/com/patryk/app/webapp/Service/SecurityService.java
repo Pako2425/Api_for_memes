@@ -3,6 +3,7 @@ package com.patryk.app.webapp.Service;
 import com.patryk.app.webapp.Model.User;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
