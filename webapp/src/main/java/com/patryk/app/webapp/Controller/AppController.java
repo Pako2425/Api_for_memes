@@ -2,13 +2,6 @@ package com.patryk.app.webapp.Controller;
 
 import com.dropbox.core.DbxException;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.patryk.app.webapp.Model.Comment;
-import com.patryk.app.webapp.Model.Like;
-import com.patryk.app.webapp.Model.Meme;
-import com.patryk.app.webapp.Repository.CommentsRepository;
-import com.patryk.app.webapp.Repository.LikesRepository;
-import com.patryk.app.webapp.Repository.MemesRepository;
-import com.patryk.app.webapp.Repository.UsersRepository;
 import com.patryk.app.webapp.Service.RegistrationDAO;
 import com.patryk.app.webapp.Service.RegistrationService;
 import com.patryk.app.webapp.Service.*;
@@ -19,24 +12,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Optional;
-
 
 @Controller
 @AllArgsConstructor
 public class AppController {
-
     private final RegistrationService registrationService;
     private final PaginationService paginationService;
     private final UploadMemeService uploadMemeService;
     private final AdminPanelService adminPanelService;
     private final SecurityService securityService;
-
-    private final LikesRepository likesRepository;
-    private final MemesRepository memesRepository;
-    private final CommentsRepository commentsRepository;
-    private final UsersRepository usersRepository;
-
+    private final UIActionsService uiActionsService;
     private final DropboxCommunicationService dropboxCommunicationService;
 
     private static final String MAIN_PAGE = "mainPage";
@@ -78,7 +63,8 @@ public class AppController {
     }
 
     @GetMapping(value = "/add_meme")
-    public String post() {
+    public String post(Model model, Authentication authentication) {
+        securityService.authenticate(authentication, model);
         return POST_MEME_FORM;
     }
 
@@ -164,29 +150,17 @@ public class AppController {
     }
 
     @PostMapping(value = "/post_meme")
-    public String uploadImage(@ModelAttribute UploadedMemeDAO uploadedMemeDAO)  throws IOException, DbxException {
+    public String uploadImage(@ModelAttribute UploadedMemeDAO uploadedMemeDAO) throws IOException, DbxException {
+        System.out.println(uploadedMemeDAO.getUserId());
+        System.out.println(uploadedMemeDAO.getTitle());
         uploadMemeService.saveMeme(uploadedMemeDAO);
+
         return "redirect:/";
     }
 
     @PostMapping(value = "/ui_actions_favorite")
     public String handleUiFavoriteActions(@ModelAttribute UiFavoriteActionDAO uiFavoriteActionDAO) {
-        long memeId = uiFavoriteActionDAO.getMemeId();
-        long userId = uiFavoriteActionDAO.getUserId();
-        Optional<Like> like = likesRepository.findByMemeIdAndUserId(memeId, userId);
-        if(like.isEmpty()) {
-            Like newLike = new Like(memeId, userId);
-            likesRepository.save(newLike);
-            Meme meme = memesRepository.getReferenceById(memeId);
-            meme.setLikesNumber(meme.getLikesNumber() + 1);
-            memesRepository.save(meme);
-        }
-        else {
-            likesRepository.deleteById(like.get().getId());
-            Meme meme = memesRepository.getReferenceById(memeId);
-            meme.setLikesNumber(meme.getLikesNumber() - 1);
-            memesRepository.save(meme);
-        }
+        uiActionsService.updateLikes(uiFavoriteActionDAO);
         return "redirect:" + uiFavoriteActionDAO.getUrl();
     }
 
@@ -195,12 +169,7 @@ public class AppController {
                                          @RequestParam("userId") long userId,
                                          @RequestParam("memeId") long memeId,
                                          @RequestParam("url") String url) {
-
-        String username = usersRepository.getReferenceById(userId).getUsername();
-        commentsRepository.save(new Comment(memeId, username, commentContent, 0));
-        Meme meme = memesRepository.getReferenceById(memeId);
-        meme.setCommentsNumber(meme.getCommentsNumber() + 1);
-        memesRepository.save(meme);
+        uiActionsService.updateComments(new UiCommentActionDAO(memeId, userId, url, commentContent));
         return "redirect:" + url;
     }
 }

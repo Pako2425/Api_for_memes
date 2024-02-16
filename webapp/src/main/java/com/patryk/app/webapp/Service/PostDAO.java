@@ -5,13 +5,10 @@ import com.patryk.app.webapp.Model.Image;
 import com.patryk.app.webapp.Model.Meme;
 import com.patryk.app.webapp.Model.User;
 import com.patryk.app.webapp.Repository.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.ui.Model;
 
 import java.util.List;
-import java.util.Optional;
 
 @Setter
 @Getter
