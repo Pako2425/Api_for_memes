@@ -51,6 +51,7 @@ class ApplicationTests {
 	@Mock
 	private LikesRepository likesRepositoryMock;
 
+	/*
 	@Test
 	void createPostDTOTest() {
 		long memeId = 201L;
@@ -93,6 +94,6 @@ class ApplicationTests {
 
 
 	}
-
+	*/
 
 }

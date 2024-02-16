@@ -14,8 +14,9 @@ public class SecurityService {
     public void authenticate(Authentication authentication, Model model) throws NullPointerException {
         boolean isAuthenticated = authentication != null && authentication.isAuthenticated();
         if(isAuthenticated) {
-            long userId = ((User)authentication.getPrincipal()).getId();
-            model.addAttribute("userId", userId);
+            long sessionUserId = ((User)authentication.getPrincipal()).getId();
+            model.addAttribute("sessionUserId", sessionUserId);
+            System.out.println(sessionUserId);
         }
         model.addAttribute("isAuthenticated", isAuthenticated);
     }

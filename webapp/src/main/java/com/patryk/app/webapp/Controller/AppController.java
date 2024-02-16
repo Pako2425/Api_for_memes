@@ -2,10 +2,13 @@ package com.patryk.app.webapp.Controller;
 
 import com.dropbox.core.DbxException;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.patryk.app.webapp.Model.Comment;
 import com.patryk.app.webapp.Model.Like;
 import com.patryk.app.webapp.Model.Meme;
+import com.patryk.app.webapp.Repository.CommentsRepository;
 import com.patryk.app.webapp.Repository.LikesRepository;
 import com.patryk.app.webapp.Repository.MemesRepository;
+import com.patryk.app.webapp.Repository.UsersRepository;
 import com.patryk.app.webapp.Service.RegistrationDAO;
 import com.patryk.app.webapp.Service.RegistrationService;
 import com.patryk.app.webapp.Service.*;
@@ -31,6 +34,8 @@ public class AppController {
 
     private final LikesRepository likesRepository;
     private final MemesRepository memesRepository;
+    private final CommentsRepository commentsRepository;
+    private final UsersRepository usersRepository;
 
     private final DropboxCommunicationService dropboxCommunicationService;
 
@@ -168,35 +173,34 @@ public class AppController {
     public String handleUiFavoriteActions(@ModelAttribute UiFavoriteActionDAO uiFavoriteActionDAO) {
         long memeId = uiFavoriteActionDAO.getMemeId();
         long userId = uiFavoriteActionDAO.getUserId();
-
-        System.out.println(memeId + " : " + userId);
-
         Optional<Like> like = likesRepository.findByMemeIdAndUserId(memeId, userId);
-
-        System.out.println(like.isPresent());
-
         if(like.isEmpty()) {
-            System.out.println("Try to create new like object");
             Like newLike = new Like(memeId, userId);
-            System.out.println("Created?");
-            //likesRepository.save(new Like(memeId, userId));
             likesRepository.save(newLike);
-            System.out.println("Like is empty, save new like");
             Meme meme = memesRepository.getReferenceById(memeId);
             meme.setLikesNumber(meme.getLikesNumber() + 1);
             memesRepository.save(meme);
-            System.out.println("Add like number");
         }
         else {
             likesRepository.deleteById(like.get().getId());
-            System.out.println("Like is present, delete like");
             Meme meme = memesRepository.getReferenceById(memeId);
             meme.setLikesNumber(meme.getLikesNumber() - 1);
             memesRepository.save(meme);
-            System.out.println("Minus like number");
         }
         return "redirect:" + uiFavoriteActionDAO.getUrl();
     }
-    //@PostMapping(value="/meme/{meme_id}")
-    //public String showMeme()
+
+    @PostMapping(value = "/ui_actions_comment")
+    public String handleUiCommentActions(@RequestParam("comment_content") String commentContent,
+                                         @RequestParam("userId") long userId,
+                                         @RequestParam("memeId") long memeId,
+                                         @RequestParam("url") String url) {
+
+        String username = usersRepository.getReferenceById(userId).getUsername();
+        commentsRepository.save(new Comment(memeId, username, commentContent, 0));
+        Meme meme = memesRepository.getReferenceById(memeId);
+        meme.setCommentsNumber(meme.getCommentsNumber() + 1);
+        memesRepository.save(meme);
+        return "redirect:" + url;
+    }
 }

@@ -22,25 +22,25 @@ CREATE TABLE memes (
   comments_number INT(11)
 );
 INSERT INTO memes (title, user_id, image_id, blocked, likes_number, comments_number)
-VALUES ('ofensywa', 1, 1, 0, 7, 54);
+VALUES ('ofensywa', 1, 1, 0, 0, 0);
 INSERT INTO memes (title, user_id, image_id, blocked, likes_number, comments_number)
-VALUES ('poczta', 1, 2, 0, 15, 54);
+VALUES ('poczta', 1, 2, 0, 0, 0);
 INSERT INTO memes (title, user_id, image_id, blocked, likes_number, comments_number)
-VALUES ('podobna do ojca', 1, 3, 0, 3, 54);
+VALUES ('podobna do ojca', 1, 3, 0, 0, 0);
 INSERT INTO memes (title, user_id, image_id, blocked, likes_number, comments_number)
-VALUES ('Porządek, kubek z kawą', 1, 4, 0, 12, 54);
+VALUES ('Porządek, kubek z kawą', 1, 4, 0, 0, 0);
 INSERT INTO memes (title, user_id, image_id, blocked, likes_number, comments_number)
-VALUES ('Dzwon na skrzyżowaniu', 1, 5, 0, 5, 54);
+VALUES ('Dzwon na skrzyżowaniu', 1, 5, 0, 0, 0);
 INSERT INTO memes (title, user_id, image_id, blocked, likes_number, comments_number)
-VALUES ('Wyjątkowa noc', 1, 6, 0, 9, 54);
+VALUES ('Wyjątkowa noc', 1, 6, 0, 0, 0);
 INSERT INTO memes (title, user_id, image_id, blocked, likes_number, comments_number)
-VALUES ('Silniki jdm', 1, 7, 0, 0, 54);
+VALUES ('Silniki jdm', 1, 7, 0, 0, 0);
 INSERT INTO memes (title, user_id, image_id, blocked, likes_number, comments_number)
-VALUES ('Supra na loterii', 1, 8, 0, 18, 54);
+VALUES ('Supra na loterii', 1, 8, 0, 0, 0);
 INSERT INTO memes (title, user_id, image_id, blocked, likes_number, comments_number)
-VALUES ('Komplementy', 1, 9, 0, 6, 54);
+VALUES ('Komplementy', 1, 9, 0, 0, 0);
 INSERT INTO memes (title, user_id, image_id, blocked, likes_number, comments_number)
-VALUES ('Słoiki', 1, 10, 0, 11, 54);
+VALUES ('Słoiki', 1, 10, 0, 0, 0);
 
 CREATE TABLE images (
   id BIGINT(20) PRIMARY KEY AUTO_INCREMENT,
@@ -72,17 +72,13 @@ VALUES ('https://www.dropbox.com/scl/fi/4vmh7qe9bjyv9pykq5e5v/S-oiki.jpg?rlkey=s
 CREATE TABLE comments (
   id BIGINT(20) PRIMARY KEY AUTO_INCREMENT,
   meme_id BIGINT(20),
-  user_id BIGINT(20),
+  username VARCHAR(255),
   content TEXT,
   parent_comment_id BIGINT(20)
 );
-INSERT INTO comments (meme_id, user_id, content, parent_comment_id)
-VALUES (10, 1, "Pierwszy!!! XDDD", 0);
 
 CREATE TABLE likes (
   id BIGINT(20) PRIMARY KEY AUTO_INCREMENT,
   meme_id BIGINT(20),
   user_id BIGINT(20)
 );
-INSERT INTO likes (meme_id, user_id)
-VALUES(10, 1);

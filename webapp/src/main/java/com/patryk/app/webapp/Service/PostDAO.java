@@ -8,8 +8,10 @@ import com.patryk.app.webapp.Repository.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.ui.Model;
 
 import java.util.List;
+import java.util.Optional;
 
 @Setter
 @Getter
@@ -24,7 +26,12 @@ public class PostDAO {
     private List<Comment> comments;
     private boolean isLiked;
 
-    public PostDAO(Meme meme, UsersRepository usersRepository, ImagesRepository imagesRepository, CommentsRepository commentsRepository, LikesRepository likesRepository) {
+    public PostDAO(Meme meme,
+                   UsersRepository usersRepository,
+                   ImagesRepository imagesRepository,
+                   CommentsRepository commentsRepository,
+                   LikesRepository likesRepository,
+                   Long sessionUserId) {
         this.memeId = meme.getId();
         User user = usersRepository.getReferenceById(meme.getUserId());
         this.userId = user.getId();
@@ -35,6 +42,6 @@ public class PostDAO {
         this.likesNumber = meme.getLikesNumber();
         this.commentsNumber = meme.getCommentsNumber();
         this.comments = commentsRepository.findAllByMemeId(meme.getId());
-        this.isLiked = likesRepository.findByMemeIdAndUserId(memeId, userId).isPresent();
+        this.isLiked = sessionUserId != null && likesRepository.findByMemeIdAndUserId(meme.getId(), sessionUserId).isPresent();
     }
 }

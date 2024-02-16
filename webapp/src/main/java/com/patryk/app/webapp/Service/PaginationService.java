@@ -43,8 +43,14 @@ public class PaginationService {
     public void showMainPage(int pageIndex, Model model) {
         Page<Meme> memesPage = memesRepository.findAll(PageRequest.of(pageIndex, MAIN_PAGE_SIZE, Sort.Direction.DESC, "id"));
         List<Meme> memes = memesPage.getContent();
-        List<PostDAO> posts = memes.stream()
-                .map(meme -> new PostDAO(meme, usersRepository, imagesRepository, commentsRepository, likesRepository))
+        List<PostDAO> posts;
+        posts = memes.stream()
+                .map(meme -> new PostDAO(meme,
+                        usersRepository,
+                        imagesRepository,
+                        commentsRepository,
+                        likesRepository,
+                        (Long)model.getAttribute("sessionUserId")))
                 .toList();
 
         model.addAttribute("posts", posts);
@@ -52,16 +58,15 @@ public class PaginationService {
         pagePagination(MAX_MAIN_PAGE_LINKS, totalPages, pageIndex, model);
     }
 
+    public void showDetailedPost(long memeId, Model model) {
+        Meme meme = memesRepository.getReferenceById(memeId);
+        PostDAO post = new PostDAO(meme, usersRepository, imagesRepository, commentsRepository, likesRepository, (Long)model.getAttribute("sessionUserId"));
+        model.addAttribute("post", post);
+    }
+
     public void showRandomPage(Model model) {
         long totalElements = memesRepository.count();
         long randomMemeId = ThreadLocalRandom.current().nextLong(totalElements);
-        Page<Meme> randomMemePage = memesRepository.findAll(PageRequest.of(Long.valueOf(randomMemeId).intValue(), 1));
-        model.addAttribute("randomMeme", randomMemePage.getContent());
-    }
-
-    public void showDetailedPost(long memeId, Model model) {
-        Meme meme = memesRepository.getReferenceById(memeId);
-        PostDAO post = new PostDAO(meme, usersRepository, imagesRepository, commentsRepository, likesRepository);
-        model.addAttribute("post", post);
+        showDetailedPost(randomMemeId, model);
     }
 }

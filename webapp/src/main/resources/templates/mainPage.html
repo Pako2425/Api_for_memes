@@ -242,7 +242,7 @@
                     <span th:unless="${isAuthenticated}">
                         <a th:href="@{'/meme/' + ${post.memeId}}"><button class="favorite-button"><img style="vertical-align: middle;" src="/static/favorite_outline.svg"><span style="vertical-align: middle;" th:text="${post.likesNumber}"></span></button></a>
                     </span>
-                    <a th:href="@{'/meme/' + ${post.memeId}}"><button class="comments-button"><img style="vertical-align: middle;" src="/static/comment.svg"><span style="vertical-align: middle;" th:text="${post.commentsNumber}">12</span></button></a>
+                    <a th:href="@{'/meme/' + ${post.memeId}}"><button class="comments-button"><img style="vertical-align: middle;" src="/static/comment.svg"><span style="vertical-align: middle;" th:text="${post.commentsNumber}"></span></button></a>
                     <button class="download-button"><img style="vertical-align: middle;" src="/static/download.svg"></button>
                 </div>
             </div>
