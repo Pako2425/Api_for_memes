@@ -3,7 +3,7 @@
 
 ## Description
 
-[running website](13.51.163.167:8080/)
+[running website](http://13.51.163.167:8080/)
 
 The web application for sharing memes. Users can browse memes or create an account and gain access to additional features: adding, downloading, drawing, rating, sharing and commenting on memes. <br/>
 The application is full server side - views are generating on the server.
