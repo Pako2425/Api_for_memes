@@ -2,7 +2,6 @@
 <br/>
 
 ## Description
-
 [running website](http://13.51.163.167:8080/)
 
 The web application for sharing memes. Users can browse memes or create an account and gain access to additional features: adding, downloading, drawing, rating, sharing and commenting on memes. <br/>
@@ -26,15 +25,19 @@ Admin user has an access to the admin panel. He manage the status of user accoun
 
 ## Using Dropbox for images storage
 Using dropbox api for saving and reading images from online disc. In SQL database are saved links to images.
+<br/>
 
 # Technology stack
 ### Java <br/>
 ### Springboot <br/>
 ### MySQL <br/>
 ### Thymeleaf <br/>
+### Docker
+### Docker-compose
 ### HTML <br/>
 ### CSS <br/>
 ### AWS <br/>
+<br/>
 
 # Some screenshots
 ![memes-p1](https://github.com/Pako2425/App_for_memes/assets/84390058/3c2ff0a8-4624-452c-8bdd-106db63a27f4)
