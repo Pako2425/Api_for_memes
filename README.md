@@ -17,14 +17,14 @@ Users could just scrolls memes, downloads or shares them.
 Registered users could uploads memes with title and image file.
 
 ## Reaction panel
-Under every post there is reaction panel - users could rates and comments.
+Under every post there is a reaction panel - users could rates and comments.
 
 ## User authentication and validation - limiting access to resources
 A logged in user gains additional privileges <br/>
 
 Admin user has an access to the admin panel. He manage the status of user accounts - lock / unlock.
 
-## Using Dropbox for photo storage
+## Using Dropbox for images storage
 Using dropbox api for saving and reading images from online disc. In SQL database are saved links to images.
 
 # Technology stack
